@@ -1,4 +1,4 @@
-package no.kristiania.Controllers;
+package no.kristiania.controllers;
 
 import no.kristiania.http.HttpMessage;
 
