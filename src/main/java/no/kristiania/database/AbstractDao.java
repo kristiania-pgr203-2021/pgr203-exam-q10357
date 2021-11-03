@@ -27,14 +27,12 @@ public abstract class AbstractDao<T> implements Dao<T> {
         }
     }
 
-    public long save(T element, String sql, String... properties) throws SQLException {
+    public long save(T element, String sql) throws SQLException {
         try (Connection connection = dataSource.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(sql,
                     Statement.RETURN_GENERATED_KEYS
             )){
-                for(int i = 1; i <= properties.length; i++){
-                    statement.setString(i, properties[i]);
-                }
+                prepareStatement(element, statement);
                 statement.executeUpdate();
 
                 try (ResultSet rs = statement.getGeneratedKeys()) {
@@ -58,6 +56,8 @@ public abstract class AbstractDao<T> implements Dao<T> {
             }
         }
     }
+
+    protected abstract void prepareStatement(T element, PreparedStatement statement) throws SQLException;
 
     protected abstract T mapFromResultSet(ResultSet rs) throws SQLException;
 }
