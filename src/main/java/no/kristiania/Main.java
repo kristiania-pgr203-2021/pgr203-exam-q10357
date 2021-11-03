@@ -1,12 +1,15 @@
 package no.kristiania;
 
-public class Main {
-    public static void main(String[] args) {
-        System.out.println("Hello Tiffany!");
-        printLine();
-    }
+import no.kristiania.http.HttpServer;
 
-    private static void printLine(){
-        System.out.println("I like pizza");
+import java.io.IOException;
+import java.nio.file.Paths;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        HttpServer server = new HttpServer( 3000);
+        server.setRoot(Paths.get("src/main/resources"));
+        server.start();
+
     }
 }
