@@ -23,6 +23,7 @@ public class AddQuestionController implements  HttpController{
             return new HttpMessage("HTTP/1.1 400 Bad Request", responseTxt);
         }
         System.out.println("I am here");
+        System.out.println(queries);
         return null;
     }
 }
