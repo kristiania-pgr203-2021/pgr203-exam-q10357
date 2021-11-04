@@ -17,13 +17,14 @@ public class AddQuestionController implements  HttpController{
     public HttpMessage handle(HttpMessage request) {
         String responseTxt = "";
         Map<String, String> queries = request.queries;
+        System.out.println(queries);
 
-        if (!queries.containsKey("question")) {
-            responseTxt = "Bad request - the post request must include category and productName";
+        if (!queries.containsKey("text")) {
+            responseTxt = "Bad request - the post request must include title and text";
             return new HttpMessage("HTTP/1.1 400 Bad Request", responseTxt);
         }
         System.out.println("I am here");
-        System.out.println(queries);
+
         return null;
     }
 }

@@ -127,7 +127,7 @@ public class HttpServer {
         }
 
         switch(apiTarget){
-            case "questions":
+            case "newQuestion":
                 connectController(socket);
                 break;
             case "products":
@@ -141,6 +141,7 @@ public class HttpServer {
 
     private void connectController(Socket socket) throws IOException {
         String requestTarget = requestMessage.getRequestTarget();
+
         if(controllers.containsKey(requestTarget)){
             HttpMessage response = controllers.get(requestTarget).handle(requestMessage);
             response.write(socket);
