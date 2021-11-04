@@ -24,6 +24,10 @@ public class AddQuestionController implements  HttpController{
             return new HttpMessage("HTTP/1.1 400 Bad Request", responseTxt);
         }
         System.out.println("I am here");
+        String questionTxt = queries.get("text");
+        String questionTitle = queries.get("title");
+
+        responseTxt = "Successfully added new question " + questionTitle + " "
 
         return null;
     }
