@@ -32,7 +32,7 @@ public abstract class Datasource {
     }
 
     public static Properties getDatabaseProperties() throws IOException {
-        InputStream dbConfigFile = QuestionDao.class.getClassLoader().getResourceAsStream("database.properties");
+        InputStream dbConfigFile = QuestionDao.class.getClassLoader().getResourceAsStream("pgr203.properties");
         Properties dbProperties = new Properties();
 
         if (dbConfigFile != null) {

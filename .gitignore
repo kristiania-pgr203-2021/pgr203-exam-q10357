@@ -4,3 +4,4 @@ target/
 /pgr203.properties
 /dependency-reduced-pom.xml
 /src/main/resources/database.properties
+/src/main/resources/pgr203.properties
