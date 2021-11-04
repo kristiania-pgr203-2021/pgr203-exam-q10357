@@ -1,6 +1,6 @@
 package no.kristiania.http;
 
-import no.kristiania.controllers.HttpController;
+import no.kristiania.http.controllers.HttpController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -110,6 +110,7 @@ public class HttpServer {
         responseCode = 404;
         text = String.format( "Html file not found %s", requestedFile);
     }
+
 
     private void handleApiRequestTarget(Socket socket) throws IOException {
         // example apiRequestTarget -> /api/products/Books
