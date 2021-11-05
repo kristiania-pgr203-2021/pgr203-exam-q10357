@@ -125,17 +125,7 @@ public class HttpServer {
             apiTarget = apiTarget.substring(0, apiTarget.indexOf("?"));
         }
 
-        switch(apiTarget){
-            case "newQuestion":
-                connectController(socket);
-                break;
-            case "products":
-                break;
-            case "newProduct":
-                break;
-            //If none, request is not found, responseCode set to 404
-            default: responseCode = 404;
-        }
+        connectController(socket);
     }
 
     private void connectController(Socket socket) throws IOException {
@@ -146,10 +136,9 @@ public class HttpServer {
             response.write(socket);
         }else{
             text = "Error";
+            responseCode = 404;
         }
     }
-
-
 
     // writes response
     private void writeResponse(Socket clientSocket, int responseCode, String text, String contentType) throws IOException {

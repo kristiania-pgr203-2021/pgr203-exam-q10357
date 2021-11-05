@@ -21,12 +21,13 @@ public class HttpClient {
         Socket socket = new Socket(host, port);
         String request = "GET " + requestTarget + " HTTP/1.1\r\n" +
                 "Host:" + host + "\r\n" +
-                "Connection:close\r\n" + //necessary??
+                "Connection:close\r\n" +
                 "\r\n";
         socket.getOutputStream().write(request.getBytes());
 
         responseMessage = new HttpMessage(socket);
         String[] startLine = responseMessage.getStartLineArray();
+        System.out.println(startLine[0]);
         responseCode = Integer.valueOf(startLine[1]);
     }
 

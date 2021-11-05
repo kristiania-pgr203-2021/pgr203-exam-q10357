@@ -7,7 +7,7 @@
 </head>
 <body>
 <h1>Add option to question</h1>
-<form method="GET" action="/api/tasks">
+<form method="GET" action="/api/alternativeAnswers">
   <label>Question: <select id="questions" name="questions" /></label>
   <label>Option: <input type="text" name="option "/></label>
   <button>Add</button>
@@ -17,7 +17,7 @@
 </div>
 </body>
 <script>
-  fetch("/api/alternativeAnswers")
+  fetch("/api/questionOptions")
           .then(function(response) {
             return response.text();
           }).then(function(text) {
