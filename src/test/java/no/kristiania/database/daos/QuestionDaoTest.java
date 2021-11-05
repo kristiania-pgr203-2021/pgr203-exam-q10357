@@ -1,7 +1,8 @@
-package no.kristiania;
+package no.kristiania.database.daos;
 
+import no.kristiania.TestData;
 import no.kristiania.database.Question;
-import no.kristiania.database.QuestionDao;
+import no.kristiania.database.daos.QuestionDao;
 import org.junit.jupiter.api.Test;
 
 import javax.sql.DataSource;
@@ -9,7 +10,7 @@ import java.sql.SQLException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class registerQuestionsTest {
+public class QuestionDaoTest {
     private static final DataSource dataSource = TestData.testDataSource("QuestionDaoTest");
     private final QuestionDao dao = new QuestionDao(dataSource);
     @Test

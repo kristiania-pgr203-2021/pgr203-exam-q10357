@@ -1,4 +1,6 @@
-package no.kristiania.database;
+package no.kristiania.database.daos;
+
+import no.kristiania.database.Question;
 
 import javax.sql.DataSource;
 import java.sql.PreparedStatement;
@@ -13,21 +15,19 @@ public class QuestionDao extends AbstractDao<Question>{
         super(dataSource);
     }
 
-    @Override
     public void save(Question question) throws SQLException {
         long id = save(question, "insert into question (title, description) values (?, ?)");
         question.setId(id);
     }
 
     @Override
-    public Question retrieve(long id) throws SQLException {
-        return retrieve(id, "select * from question where id = ?");
-    }
-
-    @Override
     protected void prepareStatement(Question question, PreparedStatement statement) throws SQLException {
         statement.setString(1, question.getTitle());
         statement.setString(2, question.getDescription());
+    }
+
+    public Question retrieve(long id) throws SQLException {
+        return retrieve(id, "select * from question where id = ?");
     }
 
     @Override
@@ -40,7 +40,6 @@ public class QuestionDao extends AbstractDao<Question>{
         return question;
     }
 
-    @Override
     public List<Question> listAll() throws SQLException {
         return listAll("select * from question");
     }

@@ -1,8 +1,7 @@
 package no.kristiania;
 
 import no.kristiania.database.Datasource;
-import no.kristiania.database.Question;
-import no.kristiania.database.QuestionDao;
+import no.kristiania.database.daos.QuestionDao;
 import no.kristiania.http.HttpServer;
 import no.kristiania.http.controllers.AddQuestionController;
 

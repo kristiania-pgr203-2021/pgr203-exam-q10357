@@ -1,12 +1,11 @@
 package no.kristiania.http;
 
-import no.kristiania.database.QuestionDao;
+import no.kristiania.database.daos.QuestionDao;
 import no.kristiania.http.controllers.HttpController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.sql.DataSource;
-import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
