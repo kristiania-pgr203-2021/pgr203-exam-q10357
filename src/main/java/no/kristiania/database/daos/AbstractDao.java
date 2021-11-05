@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
-public abstract class AbstractDao<T> implements Dao<T> {
+public abstract class AbstractDao<T> {
     protected final DataSource dataSource;
 
     public AbstractDao(DataSource dataSource) {

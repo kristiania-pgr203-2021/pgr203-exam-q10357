@@ -14,7 +14,6 @@ public class UserAnswerDao extends AbstractDao<UserAnswer> {
         super(dataSource);
     }
 
-    @Override
     public void save(UserAnswer answer) throws SQLException {
         long id = save(answer,
                 "insert into userAnswer (question_id, answerOption_id, sessionUser_id, value) values (?,?,?,?)");
@@ -26,11 +25,6 @@ public class UserAnswerDao extends AbstractDao<UserAnswer> {
         statement.setLong(2, answer.getAnswerOptionId());
         statement.setLong(3, answer.getSessionUserId());
         statement.setInt(4, answer.getValue());
-    }
-
-    @Override
-    public UserAnswer retrieve(long id) throws SQLException {
-        return null;
     }
 
     @Override

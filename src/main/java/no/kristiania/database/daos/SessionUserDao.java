@@ -13,7 +13,6 @@ public class SessionUserDao extends AbstractDao<SessionUser> {
         super(dataSource);
     }
 
-    @Override
     public void save(SessionUser user) throws SQLException {
         long id = save(user, "insert into sessionUser (cookie_id) values (?)");
         user.setId(id);
@@ -24,7 +23,6 @@ public class SessionUserDao extends AbstractDao<SessionUser> {
         statement.setString(1, user.getCookieId());
     }
 
-    @Override
     public SessionUser retrieve(long id) throws SQLException {
         return retrieve(id, "select * from sessionUser where id = ?");
     }
@@ -35,9 +33,5 @@ public class SessionUserDao extends AbstractDao<SessionUser> {
         user.setId(rs.getLong("id"));
         user.setCookieId(rs.getString("cookie_id"));
         return user;
-    }
-
-    public List<SessionUser> listAll() throws SQLException {
-        return null;
     }
 }

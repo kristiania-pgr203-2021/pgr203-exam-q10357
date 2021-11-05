@@ -1,13 +1,10 @@
-package no.kristiania;
+package no.kristiania.database.daos;
 
+import no.kristiania.TestData;
 import no.kristiania.database.AnswerOption;
 import no.kristiania.database.Question;
 import no.kristiania.database.SessionUser;
 import no.kristiania.database.UserAnswer;
-import no.kristiania.database.daos.AnswerOptionDao;
-import no.kristiania.database.daos.QuestionDao;
-import no.kristiania.database.daos.SessionUserDao;
-import no.kristiania.database.daos.UserAnswerDao;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
