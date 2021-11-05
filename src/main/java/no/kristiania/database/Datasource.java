@@ -1,6 +1,7 @@
 package no.kristiania.database;
 
 
+import no.kristiania.database.daos.QuestionDao;
 import org.flywaydb.core.Flyway;
 import org.postgresql.ds.PGSimpleDataSource;
 

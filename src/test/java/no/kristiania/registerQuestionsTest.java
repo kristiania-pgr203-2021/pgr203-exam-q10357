@@ -1,7 +1,7 @@
 package no.kristiania;
 
 import no.kristiania.database.Question;
-import no.kristiania.database.QuestionDao;
+import no.kristiania.database.daos.QuestionDao;
 import org.junit.jupiter.api.Test;
 
 import javax.sql.DataSource;

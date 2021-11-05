@@ -1,6 +1,6 @@
 package no.kristiania.http.controllers;
 
-import no.kristiania.database.QuestionDao;
+import no.kristiania.database.daos.QuestionDao;
 import no.kristiania.http.HttpMessage;
 
 import java.util.Map;

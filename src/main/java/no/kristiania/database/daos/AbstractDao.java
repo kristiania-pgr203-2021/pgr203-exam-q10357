@@ -1,9 +1,10 @@
-package no.kristiania.database;
+package no.kristiania.database.daos;
 
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 public abstract class AbstractDao<T> implements Dao<T> {
     protected final DataSource dataSource;
@@ -46,14 +47,27 @@ public abstract class AbstractDao<T> implements Dao<T> {
     public List<T> listAll(String sql) throws SQLException {
         try (Connection connection = dataSource.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
-                try (ResultSet rs = statement.executeQuery()) {
-                    ArrayList<T> result = new ArrayList<>();
-                    while (rs.next()) {
-                        result.add(mapFromResultSet(rs));
-                    }
-                    return (List<T>) result;
-                }
+                return listAll(statement);
             }
+        }
+    }
+
+    public List<T> listAll(String sql, Function<PreparedStatement, Void> fn) throws SQLException {
+        try (Connection connection = dataSource.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                fn.apply(statement);
+                return listAll(statement);
+            }
+        }
+    }
+
+    private List<T> listAll(PreparedStatement statement) throws SQLException {
+        try (ResultSet rs = statement.executeQuery()) {
+            ArrayList<T> result = new ArrayList<>();
+            while (rs.next()) {
+                result.add(mapFromResultSet(rs));
+            }
+            return result;
         }
     }
 

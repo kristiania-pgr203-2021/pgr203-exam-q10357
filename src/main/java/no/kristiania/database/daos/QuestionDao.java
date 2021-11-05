@@ -1,4 +1,6 @@
-package no.kristiania.database;
+package no.kristiania.database.daos;
+
+import no.kristiania.database.Question;
 
 import javax.sql.DataSource;
 import java.sql.PreparedStatement;
@@ -40,7 +42,6 @@ public class QuestionDao extends AbstractDao<Question>{
         return question;
     }
 
-    @Override
     public List<Question> listAll() throws SQLException {
         return listAll("select * from question");
     }
