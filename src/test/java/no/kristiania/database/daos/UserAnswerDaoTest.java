@@ -12,6 +12,7 @@ import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -64,8 +65,24 @@ public class UserAnswerDaoTest {
 
         List<UserAnswer> userAnswers = answerDao.listAll(question.getId(), user.getId());
 
+        // assert all answer options are saved
         assertThat(userAnswers)
                 .extracting(UserAnswer::getAnswerOptionId)
                 .contains((long) 1, (long) 2, (long) 3, (long) 4);
+
+        // assert all answer values are saved
+        assertThat(userAnswers)
+                .extracting(UserAnswer::getValue)
+                .contains(1, 2, 3, 4);
+
+        // assert all answers are connected to one question
+        assertThat(userAnswers)
+                .extracting(UserAnswer::getQuestionId)
+                .allMatch(id -> Objects.equals(id, question.getId()));
+
+        // assert all answers are connected to one user
+        assertThat(userAnswers)
+                .extracting(UserAnswer::getSessionUserId)
+                .allMatch(id -> Objects.equals(id, user.getId()));
     }
 }

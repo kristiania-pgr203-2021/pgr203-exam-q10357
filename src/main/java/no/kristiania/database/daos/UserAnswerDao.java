@@ -27,21 +27,6 @@ public class UserAnswerDao extends AbstractDao<UserAnswer> {
         statement.setInt(4, answer.getValue());
     }
 
-    @Override
-    protected UserAnswer mapFromResultSet(ResultSet rs) throws SQLException {
-        UserAnswer answer = new UserAnswer();
-        answer.setQuestionId(rs.getLong("question_id"));
-        answer.setSessionUserId(rs.getLong("sessionUser_id"));
-        answer.setValue(rs.getInt("value"));
-
-        AnswerOption answerOption = new AnswerOption();
-        answerOption.setId(rs.getLong("answerOption_id"));
-        answerOption.setText(rs.getString("text"));
-        answer.setAnswerOption(answerOption);
-
-        return answer;
-    }
-
     public List<UserAnswer> listAll(Long questionId, Long userId) throws SQLException {
         return listAll(
             "select ua.question_id, answerOption_id, sessionUser_id, value, ao.text " +
@@ -57,5 +42,20 @@ public class UserAnswerDao extends AbstractDao<UserAnswer> {
                     }
                     return null;
                 });
+    }
+
+    @Override
+    protected UserAnswer mapFromResultSet(ResultSet rs) throws SQLException {
+        UserAnswer answer = new UserAnswer();
+        answer.setQuestionId(rs.getLong("question_id"));
+        answer.setSessionUserId(rs.getLong("sessionUser_id"));
+        answer.setValue(rs.getInt("value"));
+
+        AnswerOption answerOption = new AnswerOption();
+        answerOption.setId(rs.getLong("answerOption_id"));
+        answerOption.setText(rs.getString("text"));
+        answer.setAnswerOption(answerOption);
+
+        return answer;
     }
 }
