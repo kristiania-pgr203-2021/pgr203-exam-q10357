@@ -25,11 +25,12 @@ public class UserAnswerDaoTest {
     private static final SessionUser user = new SessionUser();
 
     @BeforeAll
-    private static void  setupDatabase() throws SQLException {
+    private static void setupDatabase() throws SQLException {
         question.setTitle("Question Test");
         question.setDescription("Test");
         questionDao.save(question);
 
+        // Add 4 answer options to the question
         ArrayList<AnswerOption> answerOptions = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
             AnswerOption answerOption = new AnswerOption();
@@ -46,16 +47,18 @@ public class UserAnswerDaoTest {
     }
 
     @Test
-    public void shouldRetrieveSavedAnswers() throws SQLException {
+    public void shouldListAllSavedAnswers() throws SQLException {
         List<AnswerOption> answerOptions = question.getAnswerOptions();
         int answerValue = 1;
 
-        for (AnswerOption answerOption: answerOptions) {
+        for (AnswerOption answerOption : answerOptions) {
             UserAnswer answer = new UserAnswer();
+
             answer.setQuestionId(question.getId());
             answer.setAnswerOptionId(answerOption.getId());
             answer.setSessionUserId(user.getId());
             answer.setValue(answerValue++);
+
             answerDao.save(answer);
         }
 
