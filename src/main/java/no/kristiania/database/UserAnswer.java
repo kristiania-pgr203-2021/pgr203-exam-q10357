@@ -1,6 +1,8 @@
 package no.kristiania.database;
 
 public class UserAnswer {
+    private Long id;
+
     private Long questionId;
     private Question question;
 
@@ -11,6 +13,14 @@ public class UserAnswer {
     private SessionUser sessionUser;
 
     private Integer Value;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        id = id;
+    }
 
     public Long getQuestionId() {
         return questionId;

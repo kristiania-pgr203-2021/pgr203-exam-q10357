@@ -13,7 +13,7 @@ public abstract class AbstractDao<T> implements Dao<T> {
         this.dataSource = dataSource;
     }
 
-    public T retrieve(long id, String sql) throws SQLException { //long kan ikke bli null, Long kan settes som null
+    protected T retrieve(long id, String sql) throws SQLException { //long kan ikke bli null, Long kan settes som null
         try (Connection connection = dataSource.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(
                     sql
@@ -28,7 +28,7 @@ public abstract class AbstractDao<T> implements Dao<T> {
         }
     }
 
-    public long save(T element, String sql) throws SQLException {
+    protected long save(T element, String sql) throws SQLException {
         try (Connection connection = dataSource.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(sql,
                     Statement.RETURN_GENERATED_KEYS
@@ -44,7 +44,7 @@ public abstract class AbstractDao<T> implements Dao<T> {
         }
     }
 
-    public List<T> listAll(String sql) throws SQLException {
+    protected List<T> listAll(String sql) throws SQLException {
         try (Connection connection = dataSource.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
                 return listAll(statement);
@@ -52,7 +52,7 @@ public abstract class AbstractDao<T> implements Dao<T> {
         }
     }
 
-    public List<T> listAll(String sql, Function<PreparedStatement, Void> fn) throws SQLException {
+    protected List<T> listAll(String sql, Function<PreparedStatement, Void> fn) throws SQLException {
         try (Connection connection = dataSource.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
                 fn.apply(statement);
