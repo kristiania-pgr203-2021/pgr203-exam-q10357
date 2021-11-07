@@ -78,7 +78,6 @@ public class HttpServer {
     private void handleRequest(Socket clientSocket) throws IOException {
         requestMessage = new HttpMessage(clientSocket);
         String requestTarget = requestMessage.getRequestTarget();
-        System.out.println(requestTarget);
 
         text = "";
         //default responseCode to 200 OK
@@ -122,7 +121,6 @@ public class HttpServer {
         String apiTarget = requestMessage.getRequestTarget().split("/")[2];
         if(apiTarget.contains("?")){
             apiTarget = apiTarget.substring(0, apiTarget.indexOf("?"));
-            System.out.println(apiTarget);
         }
         switch(apiTarget){
             case "questionOptions":

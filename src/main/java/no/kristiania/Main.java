@@ -22,7 +22,6 @@ public class Main {
         server.addController("/api/newQuestion", new QuestionController(qDao));
         server.addController("/api/questionOptions", new ListQuestionController(qDao));
         server.addController("/api/alternativeAnswers", new AddOptionController(aoDao));
-        server.addController("/api/updateQuestion", new QuestionController(qDao));
         server.start();
 
     }
