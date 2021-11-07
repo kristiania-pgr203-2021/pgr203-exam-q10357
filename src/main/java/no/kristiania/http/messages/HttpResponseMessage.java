@@ -12,6 +12,7 @@ public class HttpResponseMessage extends HttpMessage {
         put(200, "OK");
         put(303, "See Other");
         put(400, "Bad Request");
+        put(404, "Not Found");
     }};
 
     public HttpResponseMessage(Socket socket) throws IOException {
