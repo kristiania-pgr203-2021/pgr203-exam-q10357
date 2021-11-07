@@ -119,7 +119,6 @@ public class HttpServer {
 
     private void handleApiRequestTarget(Socket socket) throws IOException {
         // example apiRequestTarget -> /api/products/Books
-        String requestTarget = requestMessage.getRequestTarget();
         String apiTarget = requestMessage.getRequestTarget().split("/")[2];
         if(apiTarget.contains("?")){
             apiTarget = apiTarget.substring(0, apiTarget.indexOf("?"));
@@ -130,6 +129,7 @@ public class HttpServer {
             case "alternativeAnswers":
             case "newQuestion":
             case "questions":
+            case "updateQuestion":
                 connectController(socket);
                 break;
             //If none, request is not found, responseCode set to 404

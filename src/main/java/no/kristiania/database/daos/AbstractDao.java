@@ -28,6 +28,14 @@ public abstract class AbstractDao<T> {
         }
     }
 
+    protected void delete(T element, String sql) throws SQLException {
+        try (Connection connection = dataSource.getConnection()) {
+            try (Statement statement = connection.createStatement()){
+                statement.executeUpdate(sql);
+            }
+        }
+    }
+
     protected void update(T element, String sql) throws SQLException {
         try (Connection connection = dataSource.getConnection()) {
             try (Statement statement = connection.createStatement()){

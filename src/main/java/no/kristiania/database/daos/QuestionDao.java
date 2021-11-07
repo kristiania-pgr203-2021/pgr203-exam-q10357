@@ -10,6 +10,7 @@ import java.util.List;
 
 public class QuestionDao extends AbstractDao<Question>{
 
+
     public QuestionDao(DataSource dataSource) {
         super(dataSource);
     }
@@ -19,12 +20,14 @@ public class QuestionDao extends AbstractDao<Question>{
         question.setId(id);
     }
 
-    protected void update(Question question) throws SQLException {
+    public void update(Question question) throws SQLException {
         update(question, "update question " +
                 "set description = '" + question.getDescription() + "' , title = '" + question.getTitle() +
                 "' where id = " + question.getId());
 
+        delete(question, "delete from useranswer where question_id = " + question.getId());
     }
+
     public Question retrieve(long id) throws SQLException {
         return retrieve(id, "select * from question where id = ?");
     }

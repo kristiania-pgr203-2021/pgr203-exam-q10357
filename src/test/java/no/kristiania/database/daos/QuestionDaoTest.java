@@ -1,8 +1,10 @@
 package no.kristiania.database.daos;
 
 import no.kristiania.TestData;
+import no.kristiania.database.AnswerOption;
 import no.kristiania.database.Question;
 import no.kristiania.database.daos.QuestionDao;
+import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.Test;
 
 import javax.sql.DataSource;
@@ -12,7 +14,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class QuestionDaoTest {
     private static final DataSource dataSource = TestData.testDataSource("QuestionDaoTest");
-    private final QuestionDao dao = new QuestionDao(dataSource);
+    private final QuestionDao qDao = new QuestionDao(dataSource);
+    private final AnswerOptionDao aoDao = new AnswerOptionDao(dataSource);
     @Test
     void shouldRegisterQuestion(){
         Question question = new Question();
@@ -22,9 +25,9 @@ public class QuestionDaoTest {
     void shouldRetrieveSavedQuestion() throws SQLException {
         Question question = exampleQuestion();
         System.out.println(question);
-        dao.save(question);
+        qDao.save(question);
 
-        assertThat(dao.retrieve(question.getId()))
+        assertThat(qDao.retrieve(question.getId()))
                 .usingRecursiveComparison()
                 .isEqualTo(question);
     }
@@ -32,16 +35,23 @@ public class QuestionDaoTest {
     @Test
     void shouldUpdateQuestion() throws SQLException {
         Question question = exampleQuestion();
-        dao.save(question);
+        qDao.save(question);
         question.setDescription("Do you like pink?");
+        AnswerOption option = null;
         question.setTitle("Colors");
-        dao.update(question);
+        qDao.update(question);
 
-        assertThat(dao.retrieve(question.getId()).getDescription()).isEqualTo("Do you like pink?");
+        assertThat(qDao.retrieve(question.getId()).getDescription()).isEqualTo("Do you like pink?");
     }
 
     void shouldListAllQuestions(){
         Question q1;
+    }
+
+    public static AnswerOption exampleOption(Question question){
+        AnswerOption option = new AnswerOption();
+        option.setQuestionId(question.getId());
+
     }
 
     public static Question exampleQuestion() {
