@@ -2,7 +2,8 @@ package no.kristiania.http.controllers;
 
 import no.kristiania.database.AnswerOption;
 import no.kristiania.database.daos.AnswerOptionDao;
-import no.kristiania.http.HttpMessage;
+import no.kristiania.http.messages.HttpRequestMessage;
+import no.kristiania.http.messages.HttpResponseMessage;
 
 import java.sql.SQLException;
 import java.util.Map;
@@ -16,18 +17,18 @@ public class AddOptionController implements HttpController {
 
 
     @Override
-    public HttpMessage handle(HttpMessage request) {
+    public HttpResponseMessage handle(HttpRequestMessage request) {
         String responseTxt = "";
         Map<String, String> queries = request.queries;
         System.out.println(queries);
 
         if (!queries.containsKey("option+") || !queries.containsKey("questions")) {
             responseTxt = "Bad request - the post request must include title and text";
-            return new HttpMessage("HTTP/1.1 400 Bad Request", responseTxt);
+            return new HttpResponseMessage(400, responseTxt);
         }
 
         addOptionToDatabase(queries);
-        return new HttpMessage("HTTP/1.1 303 See Other", responseTxt);
+        return new HttpResponseMessage(303, responseTxt);
     }
 
     private void addOptionToDatabase(Map<String, String> queries) {

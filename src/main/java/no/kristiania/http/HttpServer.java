@@ -2,6 +2,8 @@ package no.kristiania.http;
 
 import no.kristiania.database.daos.QuestionDao;
 import no.kristiania.http.controllers.HttpController;
+import no.kristiania.http.messages.HttpRequestMessage;
+import no.kristiania.http.messages.HttpResponseMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,7 +21,6 @@ import java.util.List;
 public class HttpServer {
     private static final Logger logger = LoggerFactory.getLogger(HttpServer.class);
 
-
     //properties
     private final ServerSocket serverSocket;
     private Path rootDirectory;
@@ -30,7 +31,7 @@ public class HttpServer {
     private String text = "";
     private int responseCode;
     private List<String> categories = new ArrayList<>();
-    private HttpMessage requestMessage;
+    private HttpRequestMessage requestMessage;
 
     private HashMap<String, HttpController> controllers = new HashMap<>();
 
@@ -76,7 +77,7 @@ public class HttpServer {
 
     // handle the request target
     private void handleRequest(Socket clientSocket) throws IOException {
-        requestMessage = new HttpMessage(clientSocket);
+        requestMessage = new HttpRequestMessage(clientSocket);
         String requestTarget = requestMessage.getRequestTarget();
 
         text = "";
@@ -99,7 +100,8 @@ public class HttpServer {
             text = "Invalid request: " + requestTarget;
         }
 
-        writeResponse(clientSocket, responseCode, text, contentType);
+        HttpResponseMessage responseMessage = new HttpResponseMessage(responseCode, contentType, text);
+        writeResponse(clientSocket, responseMessage);
     }
 
     //Search directory, return false if file is not found/ rootDirectory = null
@@ -135,15 +137,15 @@ public class HttpServer {
         }
     }
 
-    private void connectController(Socket socket) throws IOException {
+    private void connectController(Socket clientSocket) throws IOException {
         String requestTarget = requestMessage.getRequestTarget();
         if(requestTarget.contains("?")){
             requestTarget = requestTarget.substring(0, requestTarget.indexOf("?"));
         }
 
         if(controllers.containsKey(requestTarget)){
-            HttpMessage response = controllers.get(requestTarget).handle(requestMessage);
-            response.write(socket);
+            HttpResponseMessage response = controllers.get(requestTarget).handle(requestMessage);
+            writeResponse(clientSocket, response);
         }else{
             text = "Error";
             responseCode = 404;
@@ -151,15 +153,8 @@ public class HttpServer {
     }
 
     // writes response
-    private void writeResponse(Socket clientSocket, int responseCode, String text, String contentType) throws IOException {
-        String responseText = String.format("HTTP/1.1 %d \r\n"+
-                "Content-Type: " + contentType + "\r\n" +
-                "Content-Length: " + text.length() + "\r\n" +
-                "Connection: close\r\n" +
-                "\r\n" +
-                text, responseCode);
-
-        clientSocket.getOutputStream().write(responseText.getBytes());
+    private void writeResponse(Socket clientSocket, HttpResponseMessage responseMessage) throws IOException {
+        clientSocket.getOutputStream().write(responseMessage.getResponseText().getBytes());
     }
 
     public int getActualPort() {

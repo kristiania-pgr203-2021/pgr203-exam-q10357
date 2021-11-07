@@ -1,7 +1,8 @@
 package no.kristiania.http.controllers;
 
-import no.kristiania.http.HttpMessage;
+import no.kristiania.http.messages.HttpRequestMessage;
+import no.kristiania.http.messages.HttpResponseMessage;
 
 public interface HttpController {
-    HttpMessage handle(HttpMessage request);
+    HttpResponseMessage handle(HttpRequestMessage request);
 }

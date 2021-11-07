@@ -2,7 +2,8 @@ package no.kristiania.http.controllers;
 
 import no.kristiania.database.Question;
 import no.kristiania.database.daos.QuestionDao;
-import no.kristiania.http.HttpMessage;
+import no.kristiania.http.messages.HttpRequestMessage;
+import no.kristiania.http.messages.HttpResponseMessage;
 
 import java.sql.SQLException;
 
@@ -14,7 +15,7 @@ public class ListQuestionController implements HttpController {
     }
 
     @Override
-    public HttpMessage handle(HttpMessage request) {
+    public HttpResponseMessage handle(HttpRequestMessage request) {
         String target = request.getRequestTarget();
         String responseText = "";
 
@@ -26,6 +27,6 @@ public class ListQuestionController implements HttpController {
             e.printStackTrace();
         }
 
-        return new HttpMessage("HTTP/1.1 200 OK", responseText);
+        return new HttpResponseMessage(200, responseText);
     }
 }

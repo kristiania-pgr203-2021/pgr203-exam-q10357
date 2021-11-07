@@ -2,7 +2,8 @@ package no.kristiania.http.controllers;
 
 import no.kristiania.database.Question;
 import no.kristiania.database.daos.QuestionDao;
-import no.kristiania.http.HttpMessage;
+import no.kristiania.http.messages.HttpRequestMessage;
+import no.kristiania.http.messages.HttpResponseMessage;
 
 import java.sql.SQLException;
 import java.util.Map;
@@ -17,7 +18,7 @@ public class QuestionController implements  HttpController{
 
 
     @Override
-    public HttpMessage handle(HttpMessage request) {
+    public HttpResponseMessage handle(HttpRequestMessage request) {
         Map<String, String> queries = request.queries;
         String apiTarget = request.getRequestTarget().split("/")[2];
         System.out.println(apiTarget);
@@ -25,7 +26,7 @@ public class QuestionController implements  HttpController{
 
         if (!queries.containsKey("text") || !queries.containsKey("title")) {
             responseTxt = "Bad request - the post request must include title and text";
-            return new HttpMessage("HTTP/1.1 400 Bad Request", responseTxt);
+            return new HttpResponseMessage(400, responseTxt);
         }
 
         String description = queries.get("text").replaceAll("\\+", " ");
@@ -45,7 +46,7 @@ public class QuestionController implements  HttpController{
                 break;
         }
 
-        return new HttpMessage("HTTP/1.1 200 OK", responseTxt);
+        return new HttpResponseMessage(200, responseTxt);
     }
 
 

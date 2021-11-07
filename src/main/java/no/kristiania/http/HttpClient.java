@@ -1,5 +1,7 @@
 package no.kristiania.http;
 
+import no.kristiania.http.messages.HttpRequestMessage;
+
 import java.io.IOException;
 import java.net.Socket;
 
@@ -11,7 +13,7 @@ public class HttpClient {
     private final String requestTarget;
 
     private int responseCode;
-    public HttpMessage responseMessage;
+    public HttpRequestMessage responseMessage;
 
     public HttpClient(String host, int port, String requestTarget) throws IOException {
         this.host = host;
@@ -25,8 +27,8 @@ public class HttpClient {
                 "\r\n";
         socket.getOutputStream().write(request.getBytes());
 
-        responseMessage = new HttpMessage(socket);
-        String[] startLine = responseMessage.getStartLineArray();
+        responseMessage = new HttpRequestMessage(socket);
+        String[] startLine = responseMessage.getStartLine();
         responseCode = Integer.valueOf(startLine[1]);
     }
 
