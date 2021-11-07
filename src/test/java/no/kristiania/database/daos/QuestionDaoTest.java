@@ -51,7 +51,7 @@ public class QuestionDaoTest {
     public static AnswerOption exampleOption(Question question){
         AnswerOption option = new AnswerOption();
         option.setQuestionId(question.getId());
-
+        return null;
     }
 
     public static Question exampleQuestion() {
