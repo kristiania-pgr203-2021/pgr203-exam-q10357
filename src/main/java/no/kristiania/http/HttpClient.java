@@ -27,7 +27,6 @@ public class HttpClient {
 
         responseMessage = new HttpMessage(socket);
         String[] startLine = responseMessage.getStartLineArray();
-        System.out.println(startLine[0]);
         responseCode = Integer.valueOf(startLine[1]);
     }
 

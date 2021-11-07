@@ -123,13 +123,25 @@ public class HttpServer {
         String apiTarget = requestMessage.getRequestTarget().split("/")[2];
         if(apiTarget.contains("?")){
             apiTarget = apiTarget.substring(0, apiTarget.indexOf("?"));
+            System.out.println(apiTarget);
         }
-
-        connectController(socket);
+        switch(apiTarget){
+            case "questionOptions":
+            case "alternativeAnswers":
+            case "newQuestion":
+            case "questions":
+                connectController(socket);
+                break;
+            //If none, request is not found, responseCode set to 404
+            default: responseCode = 404;
+        }
     }
 
     private void connectController(Socket socket) throws IOException {
         String requestTarget = requestMessage.getRequestTarget();
+        if(requestTarget.contains("?")){
+            requestTarget = requestTarget.substring(0, requestTarget.indexOf("?"));
+        }
 
         if(controllers.containsKey(requestTarget)){
             HttpMessage response = controllers.get(requestTarget).handle(requestMessage);

@@ -5,7 +5,7 @@ import no.kristiania.database.daos.QuestionDao;
 import no.kristiania.database.daos.QuestionDaoTest;
 import no.kristiania.http.HttpClient;
 import no.kristiania.http.HttpServer;
-import no.kristiania.http.controllers.QuestionOptionsController;
+import no.kristiania.http.controllers.ListQuestionController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -31,7 +31,7 @@ public class ServerTest {
     @Test
     void shouldReturnRolesFromServer() throws IOException, SQLException {
         questionDao.save(QuestionDaoTest.exampleQuestion());
-        server.addController("/api/questionOptions", new QuestionOptionsController(questionDao));
+        server.addController("/api/questionOptions", new ListQuestionController(questionDao));
         HttpClient client = new HttpClient("localhost", server.getActualPort(), "/api/questionOptions");
         assertEquals(
                 "<option value=" + questionDao.retrieve(1l).getId() + ">" + questionDao.retrieve(1L).getDescription() + "</option>",

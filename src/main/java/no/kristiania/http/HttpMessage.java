@@ -76,6 +76,9 @@ public class HttpMessage {
         if (query == null || query.isBlank()) {
             return;
         }
+        if(query.contains("?")){
+            query = query.substring(query.indexOf("?") + 1);
+        }
 
         for (String queryParameter : query.split("&")) {
             int equalsPos = queryParameter.indexOf('='); //finne hvor "=" er

@@ -6,10 +6,10 @@ import no.kristiania.http.HttpMessage;
 
 import java.sql.SQLException;
 
-public class QuestionOptionsController implements HttpController {
+public class ListQuestionController implements HttpController {
     private final QuestionDao qDao;
 
-    public QuestionOptionsController(QuestionDao questionDao) {
+    public ListQuestionController(QuestionDao questionDao) {
         this.qDao = questionDao;
     }
 

@@ -29,6 +29,17 @@ public class QuestionDaoTest {
                 .isEqualTo(question);
     }
 
+    @Test
+    void shouldUpdateQuestion() throws SQLException {
+        Question question = exampleQuestion();
+        dao.save(question);
+        question.setDescription("Do you like pink?");
+        question.setTitle("Colors");
+        dao.update(question);
+
+        assertThat(dao.retrieve(question.getId()).getDescription()).isEqualTo("Do you like pink?");
+    }
+
     void shouldListAllQuestions(){
         Question q1;
     }

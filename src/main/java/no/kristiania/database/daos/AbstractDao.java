@@ -28,6 +28,14 @@ public abstract class AbstractDao<T> {
         }
     }
 
+    protected void update(T element, String sql) throws SQLException {
+        try (Connection connection = dataSource.getConnection()) {
+            try (Statement statement = connection.createStatement()){
+                statement.executeUpdate(sql);
+            }
+        }
+    }
+
     protected long save(T element, String sql) throws SQLException {
         try (Connection connection = dataSource.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(sql,
@@ -72,6 +80,7 @@ public abstract class AbstractDao<T> {
     }
 
     protected abstract void prepareStatement(T element, PreparedStatement statement) throws SQLException;
+
 
     protected abstract T mapFromResultSet(ResultSet rs) throws SQLException;
 }
