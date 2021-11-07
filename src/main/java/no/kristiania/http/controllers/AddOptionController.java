@@ -15,14 +15,12 @@ public class AddOptionController implements HttpController {
         this.answerOptionDao = answerOptionDao;
     }
 
-
     @Override
     public HttpResponseMessage handle(HttpRequestMessage request) {
         String responseTxt = "";
         Map<String, String> queries = request.queries;
-        System.out.println(queries);
 
-        if (!queries.containsKey("option+") || !queries.containsKey("questions")) {
+        if (!queries.containsKey("option") || !queries.containsKey("questions")) {
             responseTxt = "Bad request - the post request must include title and text";
             return new HttpResponseMessage(400, responseTxt);
         }
@@ -32,7 +30,7 @@ public class AddOptionController implements HttpController {
     }
 
     private void addOptionToDatabase(Map<String, String> queries) {
-        String optionText = queries.get("option+").replaceAll("\\+", " ");
+        String optionText = queries.get("option");
         Long qId = Long.parseLong(queries.get("questions"));
 
         AnswerOption ao = new AnswerOption();
