@@ -19,13 +19,13 @@ public class QuestionDao extends AbstractDao<Question>{
     }
 
     public void save(Question question) throws SQLException {
-        long id = save(question, "insert into question (title, description) values (?, ?)");
+        long id = save(question, "insert into question (title, description, minanswerlabel, maxanswerlabel) values (?, ?, ?, ?)");
         question.setId(id);
     }
 
     public void update(Question question) throws SQLException {
         update(question, "update question " +
-                "set title  = ?, description = ? " +
+                "set title  = ?, description = ?, " +
                  "where id = " + question.getId());
         //When editing a question, all associated answers and options will be deleted to ensure integrity of application
         delete("delete from useranswer where question_id =" + question.getId());
@@ -39,6 +39,17 @@ public class QuestionDao extends AbstractDao<Question>{
 
     @Override
     protected void prepareStatement(Question question, PreparedStatement statement) throws SQLException {
+        if(question.getHighLabel() == null || question.getLowLabel() == null){
+            prepareStatementForUpdate(question, statement);
+            return;
+        }
+        statement.setString(1, question.getTitle());
+        statement.setString(2, question.getDescription());
+        statement.setString(3, question.getLowLabel());
+        statement.setString(4, question.getHighLabel());
+    }
+
+    protected void prepareStatementForUpdate(Question question, PreparedStatement statement) throws SQLException {
         statement.setString(1, question.getTitle());
         statement.setString(2, question.getDescription());
     }

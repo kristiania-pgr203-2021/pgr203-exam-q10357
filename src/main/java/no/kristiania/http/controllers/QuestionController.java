@@ -40,6 +40,8 @@ public class QuestionController implements  HttpController{
 
         switch(apiTarget){
             case "newQuestion":
+                question.setHighLabel(queries.get("high_label"));
+                question.setLowLabel(queries.get("low_label"));
                 addQuestionToDatabase(question);
                 break;
             case "updateQuestion":
