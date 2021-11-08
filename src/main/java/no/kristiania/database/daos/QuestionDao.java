@@ -25,8 +25,8 @@ public class QuestionDao extends AbstractDao<Question>{
 
     public void update(Question question) throws SQLException {
         update(question, "update question " +
-                "set description = '" + question.getDescription() + "' , title = '" + question.getTitle() +
-                "' where id = " + question.getId());
+                "set title  = ?, description = ? " +
+                 "where id = " + question.getId());
         //When editing a question, all associated answers and options will be deleted to ensure integrity of application
         delete("delete from useranswer where question_id =" + question.getId());
         delete("delete from answeroption where question_id =" + question.getId());
