@@ -48,6 +48,11 @@ public class QuestionDaoTest {
                 .isEqualTo(question);
     }
 
+    /*@Test
+    void shouldGetErrorMessageForNonExistingID() throws SQLException {
+        qDao.retrieve(1000000000);
+    }*/
+
     @Test
     void shouldUpdateQuestion() throws SQLException {
         question.setDescription("Do you like pink?");

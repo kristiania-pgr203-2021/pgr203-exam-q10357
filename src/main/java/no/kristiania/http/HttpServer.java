@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.sql.DataSource;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.file.Files;
@@ -109,6 +110,8 @@ public class HttpServer {
     private void searchDirectoryAndSetFileResponse() throws IOException {
         String requestedFile = requestMessage.getRequestTarget().substring(1);
 
+        InputStream resourceAsStream = getClass().getResourceAsStream(requestedFile);
+
         if(rootDirectory != null && Files.exists(rootDirectory.resolve(requestedFile))){
             text = Files.readString((rootDirectory.resolve(requestedFile)));
             return;
@@ -138,6 +141,7 @@ public class HttpServer {
     }
 
     private void connectController(Socket clientSocket) throws IOException {
+        System.out.println("Now we in connect");
         String requestTarget = requestMessage.getRequestTarget();
         if(requestTarget.contains("?")){
             requestTarget = requestTarget.substring(0, requestTarget.indexOf("?"));
