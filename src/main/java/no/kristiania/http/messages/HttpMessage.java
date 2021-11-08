@@ -11,13 +11,14 @@ public abstract class HttpMessage {
 
     protected int responseCode;
 
-    public final Map<String, String> headers = new HashMap<>();
+    protected final Map<String, String> headers = new HashMap<>();
 
     public String messageBody;
 
     public HttpMessage() {
         startLine = null;
     }
+
     public HttpMessage(Socket socket) throws IOException {
         startLine = readLine(socket).split(" ");
         readHeadersToHaspMap(socket);
