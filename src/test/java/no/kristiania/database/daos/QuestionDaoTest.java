@@ -3,30 +3,46 @@ package no.kristiania.database.daos;
 import no.kristiania.TestData;
 import no.kristiania.database.AnswerOption;
 import no.kristiania.database.Question;
-import no.kristiania.database.daos.QuestionDao;
-import org.checkerframework.checker.units.qual.A;
+import no.kristiania.database.SessionUser;
+import no.kristiania.database.UserAnswer;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class QuestionDaoTest {
     private static final DataSource dataSource = TestData.testDataSource("QuestionDaoTest");
-    private final QuestionDao qDao = new QuestionDao(dataSource);
-    private final AnswerOptionDao aoDao = new AnswerOptionDao(dataSource);
-    @Test
-    void shouldRegisterQuestion(){
-        Question question = new Question();
+    private static final QuestionDao qDao = new QuestionDao(dataSource);
+    private static final AnswerOptionDao aoDao = new AnswerOptionDao(dataSource);
+    private static final UserAnswerDao uaDao = new UserAnswerDao(dataSource);
+    private static final SessionUser user = new SessionUser();
+    private static final SessionUserDao userDao = new SessionUserDao(dataSource);
+    private static Question question = TestData.exampleQuestion();
+
+    @BeforeAll
+    private static void setupDatabase() throws SQLException {
+        qDao.save(question);
+
+        // Add 4 answer options to the question
+        ArrayList<AnswerOption> answerOptions = new ArrayList<>();
+        for (int i = 0; i < 4; i++) {
+            AnswerOption answerOption = TestData.exampleOption(question);
+            aoDao.save(answerOption);
+            answerOptions.add(answerOption);
+        }
+
+        question.setAnswerOptions(answerOptions);
+
+        user.setCookieId("testId");
+        userDao.save(user);
     }
 
     @Test
     void shouldRetrieveSavedQuestion() throws SQLException {
-        Question question = exampleQuestion();
-        System.out.println(question);
-        qDao.save(question);
-
         assertThat(qDao.retrieve(question.getId()))
                 .usingRecursiveComparison()
                 .isEqualTo(question);
@@ -34,33 +50,22 @@ public class QuestionDaoTest {
 
     @Test
     void shouldUpdateQuestion() throws SQLException {
-        Question question = exampleQuestion();
-        qDao.save(question);
         question.setDescription("Do you like pink?");
-        AnswerOption option = null;
         question.setTitle("Colors");
+
+        //Generating userAnswer and testing to see it deletes as we update question
+        UserAnswer answer = TestData.exampleUserAnswer(question, question.getAnswerOptions().get(0), user);
+        uaDao.save(answer);
+
         qDao.update(question);
 
+        assertThat(uaDao.listAll(question.getId(), user.getId()).isEmpty());
         assertThat(qDao.retrieve(question.getId()).getDescription()).isEqualTo("Do you like pink?");
+
     }
 
     void shouldListAllQuestions(){
         Question q1;
-    }
-
-    public static AnswerOption exampleOption(Question question){
-        AnswerOption option = new AnswerOption();
-        option.setQuestionId(question.getId());
-        return null;
-    }
-
-    public static Question exampleQuestion() {
-        Question question = new Question();
-        question.setTitle(TestData.pickOne("Food", "Cats", "Test", "Fails..", "Pass!", "Give us an A?"));
-        question.setDescription(TestData.pickOne("Are you hungry?","Do you like cats?", "Do you like A's?",
-                "Why are you failing?", "Have you heard about ENJIN coin?"));
-
-        return question;
     }
 
 

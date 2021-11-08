@@ -7,15 +7,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class HttpMessage {
-    protected final String[] startLine;
+    protected String[] startLine;
+
+    protected int responseCode;
 
     public final Map<String, String> headers = new HashMap<>();
+
     public String messageBody;
 
     public HttpMessage() {
         startLine = null;
     }
-
     public HttpMessage(Socket socket) throws IOException {
         startLine = readLine(socket).split(" ");
         readHeadersToHaspMap(socket);
@@ -65,5 +67,13 @@ public abstract class HttpMessage {
 
     public String[] getStartLine() {
         return startLine;
+    }
+
+    public void setResponseCode(int responseCode) {
+        this.responseCode = responseCode;
+    }
+
+    public int getResponseCode() {
+        return responseCode;
     }
 }

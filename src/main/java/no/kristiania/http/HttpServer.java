@@ -84,6 +84,8 @@ public class HttpServer {
         //default responseCode to 200 OK
         responseCode = 200;
 
+        System.out.println(responseCode);
+
         if(requestTarget.endsWith(".html"))
         {
             contentType = "text/html";
@@ -112,7 +114,6 @@ public class HttpServer {
             text = Files.readString((rootDirectory.resolve(requestedFile)));
             return;
         }
-
         responseCode = 404;
         text = String.format( "Html file not found %s", requestedFile);
     }
@@ -145,6 +146,8 @@ public class HttpServer {
 
         if(controllers.containsKey(requestTarget)){
             HttpResponseMessage response = controllers.get(requestTarget).handle(requestMessage);
+            responseCode = response.getResponseCode();
+
             writeResponse(clientSocket, response);
         }else{
             text = "Error";

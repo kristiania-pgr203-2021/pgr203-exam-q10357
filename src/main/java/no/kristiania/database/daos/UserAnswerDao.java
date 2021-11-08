@@ -1,6 +1,7 @@
 package no.kristiania.database.daos;
 
 import no.kristiania.database.AnswerOption;
+import no.kristiania.database.Question;
 import no.kristiania.database.UserAnswer;
 
 import javax.sql.DataSource;

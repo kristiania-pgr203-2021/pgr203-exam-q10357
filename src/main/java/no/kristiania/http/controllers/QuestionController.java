@@ -10,6 +10,7 @@ import java.util.Map;
 
 public class QuestionController implements  HttpController{
     private final QuestionDao questionDao;
+    private String location;
     String responseTxt = "";
 
     public QuestionController(QuestionDao questionDao) {
@@ -38,33 +39,33 @@ public class QuestionController implements  HttpController{
 
         switch(apiTarget){
             case "newQuestion":
-                responseTxt = addQuestionToDatabase(question);
+                addQuestionToDatabase(question);
                 break;
             case "updateQuestion":
                 question.setId(Long.parseLong(queries.get("questions")));
-                responseTxt = updateExistingQuestion(question);
+                updateExistingQuestion(question);
                 break;
         }
 
-        return new HttpResponseMessage(200, responseTxt);
+        return new HttpResponseMessage(303, location);
     }
 
 
-    private String updateExistingQuestion(Question question) {
+    private void updateExistingQuestion(Question question) {
         try {
             questionDao.update(question);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return responseTxt = "Successfully updated question, to title:" + question.getTitle() + " and text:  " + question.getDescription();
+        location = "/updateQuestion.html";
     }
 
-    private String addQuestionToDatabase(Question question) {
+    private void addQuestionToDatabase(Question question) {
         try {
             questionDao.save(question);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return responseTxt = "Successfully added new question, with title:" + question.getTitle() + " and text:  " + question.getDescription();
+        location = "/newQuestion.html";
     }
 }

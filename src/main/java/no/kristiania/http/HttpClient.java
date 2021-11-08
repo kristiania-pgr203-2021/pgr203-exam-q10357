@@ -30,6 +30,7 @@ public class HttpClient {
         responseMessage = new HttpRequestMessage(socket);
         String[] startLine = responseMessage.getStartLine();
         responseCode = Integer.valueOf(startLine[1]);
+        System.out.println("In client");
     }
 
 

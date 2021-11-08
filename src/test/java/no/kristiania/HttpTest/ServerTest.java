@@ -30,7 +30,7 @@ public class ServerTest {
 
     @Test
     void shouldReturnRolesFromServer() throws IOException, SQLException {
-        questionDao.save(QuestionDaoTest.exampleQuestion());
+        questionDao.save(TestData.exampleQuestion());
         server.addController("/api/questionOptions", new ListQuestionController(questionDao));
         HttpClient client = new HttpClient("localhost", server.getActualPort(), "/api/questionOptions");
         assertEquals(

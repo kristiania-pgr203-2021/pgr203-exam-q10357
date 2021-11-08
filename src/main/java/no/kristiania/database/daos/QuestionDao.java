@@ -1,6 +1,7 @@
 package no.kristiania.database.daos;
 
 import no.kristiania.database.Question;
+import no.kristiania.database.UserAnswer;
 
 import javax.sql.DataSource;
 import java.sql.PreparedStatement;
@@ -9,6 +10,8 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class QuestionDao extends AbstractDao<Question>{
+    private final UserAnswerDao uaDao = new UserAnswerDao(this.dataSource);
+    private final AnswerOptionDao aoDao = new AnswerOptionDao(this.dataSource);
 
 
     public QuestionDao(DataSource dataSource) {
@@ -25,7 +28,10 @@ public class QuestionDao extends AbstractDao<Question>{
                 "set description = '" + question.getDescription() + "' , title = '" + question.getTitle() +
                 "' where id = " + question.getId());
 
-        delete(question, "delete from useranswer where question_id = " + question.getId());
+        //When editing a question, all associated answers and options will be deleted to ensure integrity of application
+        delete("delete from useranswer where question_id =" + question.getId());
+        delete("delete from answeroption where question_id =" + question.getId());
+
     }
 
     public Question retrieve(long id) throws SQLException {

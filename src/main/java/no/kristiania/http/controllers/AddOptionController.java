@@ -26,7 +26,7 @@ public class AddOptionController implements HttpController {
         }
 
         addOptionToDatabase(queries);
-        return new HttpResponseMessage(303, responseTxt);
+        return new HttpResponseMessage(303, "/addOption.html");
     }
 
     private void addOptionToDatabase(Map<String, String> queries) {
