@@ -22,9 +22,6 @@ public class HttpRequestMessage extends HttpMessage {
     }
 
     private void setQueries(String query) {
-        if(query.contains("?")){
-            query = query.substring(query.indexOf("?") +1);
-        }
         for (String queryParameter : query.split("&")) {
             int equalsPos = queryParameter.indexOf('='); //finne hvor "=" er
             String parameterName = queryParameter.substring(0, equalsPos); //fra start til =
