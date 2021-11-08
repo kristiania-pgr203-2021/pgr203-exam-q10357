@@ -27,6 +27,6 @@ public class ListQuestionController implements HttpController {
             e.printStackTrace();
         }
 
-        return new HttpResponseMessage(responseText);
+        return new HttpResponseMessage(200, responseText);
     }
 }

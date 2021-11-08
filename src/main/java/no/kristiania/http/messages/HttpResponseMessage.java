@@ -31,12 +31,6 @@ public class HttpResponseMessage extends HttpMessage {
         this.headers.put("Connection", "close");
     }
 
-    public HttpResponseMessage(String messageBody){
-        this.responseCode = 200;
-        this.messageBody = messageBody;
-        this.headers.put("Content-Length", String.valueOf(messageBody.length()));
-        this.headers.put("Connection", "close");
-    }
 
     public HttpResponseMessage(int responseCode, String contentType, String messageBody) {
         this.responseCode = responseCode;
