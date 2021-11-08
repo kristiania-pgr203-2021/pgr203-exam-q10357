@@ -1,6 +1,7 @@
 package no.kristiania.http.controllers;
 
 import no.kristiania.database.AnswerOption;
+import no.kristiania.database.Question;
 import no.kristiania.database.daos.AnswerOptionDao;
 import no.kristiania.http.messages.HttpRequestMessage;
 import no.kristiania.http.messages.HttpResponseMessage;

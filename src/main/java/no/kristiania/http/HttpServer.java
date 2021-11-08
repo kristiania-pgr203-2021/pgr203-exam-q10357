@@ -127,17 +127,7 @@ public class HttpServer {
         if(apiTarget.contains("?")){
             apiTarget = apiTarget.substring(0, apiTarget.indexOf("?"));
         }
-        switch(apiTarget){
-            case "questionOptions":
-            case "alternativeAnswers":
-            case "newQuestion":
-            case "questions":
-            case "updateQuestion":
-                connectController(socket);
-                break;
-            //If none, request is not found, responseCode set to 404
-            default: responseCode = 404;
-        }
+        connectController(socket);
     }
 
     private void connectController(Socket clientSocket) throws IOException {

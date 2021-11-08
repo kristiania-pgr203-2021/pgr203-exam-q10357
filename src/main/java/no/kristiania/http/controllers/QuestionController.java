@@ -1,6 +1,8 @@
 package no.kristiania.http.controllers;
 
+import no.kristiania.database.AnswerOption;
 import no.kristiania.database.Question;
+import no.kristiania.database.daos.AnswerOptionDao;
 import no.kristiania.database.daos.QuestionDao;
 import no.kristiania.http.messages.HttpRequestMessage;
 import no.kristiania.http.messages.HttpResponseMessage;
@@ -22,13 +24,12 @@ public class QuestionController implements  HttpController{
     public HttpResponseMessage handle(HttpRequestMessage request) {
         System.out.println("Now we in handle");
         Map<String, String> queries =QueryHandler.handleQueries(request.queries);
+        System.out.println(queries);
 
         String apiTarget = request.getRequestTarget().split("/")[2];
 
-        if (!queries.containsKey("text") || !queries.containsKey("title")) {
-            responseTxt = "Bad request - the post request must include title and text";
+        if(!validateQueries(queries))
             return new HttpResponseMessage(400, responseTxt);
-        }
 
         String description = queries.get("text");
         String title = queries.get("title");
@@ -72,5 +73,15 @@ public class QuestionController implements  HttpController{
             e.printStackTrace();
         }
         location = "/newQuestion.html";
+    }
+
+
+    private boolean validateQueries(Map<String, String> queries) {
+        if (!queries.containsKey("text") || !queries.containsKey("title")
+                || queries.get("text").length() == 0 || queries.get("title").length() == 0) {
+            responseTxt = "Bad request - the post request must include valid title and text";
+            return false;
+        }
+        return true;
     }
 }
