@@ -19,14 +19,13 @@ public class HttpResponseMessage extends HttpMessage {
     }
 
     public HttpResponseMessage(int responseCode, String messageBody) {
+        this.responseCode = responseCode;
         if(responseCode == 303){
-            this.responseCode = 303;
             String location = messageBody;
             this.headers.put("Location", location);
             return;
         }
         this.messageBody = messageBody;
-        this.responseCode = responseCode;
         this.headers.put("Content-Type", "text/html");
         this.headers.put("Content-Length", String.valueOf(messageBody.length()));
         this.headers.put("Connection", "close");
@@ -49,7 +48,6 @@ public class HttpResponseMessage extends HttpMessage {
 
 
     public String getResponseText() throws IOException {
-        System.out.println(messageBody);
         return "HTTP/1.1 " + responseCode + " " + getResponseCodeText(responseCode) + "\r\n" +
                 getResponseHeaders() +
                 "\r\n" +
@@ -78,7 +76,6 @@ public class HttpResponseMessage extends HttpMessage {
         for (Map.Entry<String, String> header : headers.entrySet()) {
             responseHeaders += header.getKey() + ": " + header.getValue() + "\r\n";
         }
-        System.out.println(responseHeaders.toString());
         return responseHeaders;
     }
 

@@ -11,7 +11,7 @@ import java.util.Map;
 public class QuestionController implements  HttpController{
     private final QuestionDao questionDao;
     private String location;
-    String responseTxt = "";
+    private String responseTxt = "";
 
     public QuestionController(QuestionDao questionDao) {
         this.questionDao = questionDao;
@@ -22,8 +22,6 @@ public class QuestionController implements  HttpController{
     public HttpResponseMessage handle(HttpRequestMessage request) {
         Map<String, String> queries = request.queries;
         String apiTarget = request.getRequestTarget().split("/")[2];
-        System.out.println(apiTarget);
-        System.out.println(queries);
 
         if (!queries.containsKey("text") || !queries.containsKey("title")) {
             responseTxt = "Bad request - the post request must include title and text";
@@ -36,12 +34,14 @@ public class QuestionController implements  HttpController{
         Question question = new Question();
         question.setTitle(title);
         question.setDescription(description);
+        System.out.println(apiTarget);
 
         switch(apiTarget){
             case "newQuestion":
                 addQuestionToDatabase(question);
                 break;
             case "updateQuestion":
+                System.out.println("In update");
                 question.setId(Long.parseLong(queries.get("questions")));
                 updateExistingQuestion(question);
                 break;
@@ -57,6 +57,7 @@ public class QuestionController implements  HttpController{
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        System.out.println(question.getDescription());
         location = "/updateQuestion.html";
     }
 

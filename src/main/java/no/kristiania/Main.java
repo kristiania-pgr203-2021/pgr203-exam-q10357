@@ -21,6 +21,7 @@ public class Main {
         AnswerOptionDao aoDao = new AnswerOptionDao(dataSource);
         server.setRoot(Paths.get("src/main/resources"));
         server.addController("/api/newQuestion", new QuestionController(qDao));
+        server.addController("/api/updateQuestion", new QuestionController(qDao));
         server.addController("/api/questionOptions", new ListQuestionController(qDao));
         server.addController("/api/alternativeAnswers", new AddOptionController(aoDao));
         server.start();

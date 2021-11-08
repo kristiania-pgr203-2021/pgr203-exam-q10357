@@ -84,7 +84,6 @@ public class HttpServer {
         //default responseCode to 200 OK
         responseCode = 200;
 
-        System.out.println(responseCode);
 
         if(requestTarget.endsWith(".html"))
         {
