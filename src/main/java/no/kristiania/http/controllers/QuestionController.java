@@ -21,8 +21,8 @@ public class QuestionController implements  HttpController{
     @Override
     public HttpResponseMessage handle(HttpRequestMessage request) {
         System.out.println("Now we in handle");
-        Map<String, String> queries = request.queries;
-        System.out.println(queries);
+        Map<String, String> queries =QueryHandler.handleQueries(request.queries);
+
         String apiTarget = request.getRequestTarget().split("/")[2];
 
         if (!queries.containsKey("text") || !queries.containsKey("title")) {
@@ -30,7 +30,7 @@ public class QuestionController implements  HttpController{
             return new HttpResponseMessage(400, responseTxt);
         }
 
-        String description = queries.get("text").replaceAll("\\+", " ");
+        String description = queries.get("text");
         String title = queries.get("title");
 
         Question question = new Question();

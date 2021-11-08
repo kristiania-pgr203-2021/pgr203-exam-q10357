@@ -19,8 +19,7 @@ public class AddOptionController implements HttpController {
     public HttpResponseMessage handle(HttpRequestMessage request) {
         System.out.println("are we here?");
         String responseTxt = "";
-        Map<String, String> queries = request.queries;
-        System.out.println(queries);
+        Map<String, String> queries = QueryHandler.handleQueries(request.queries);
 
         if (!queries.containsKey("option") || !queries.containsKey("questions")) {
             responseTxt = "Bad request - the post request must include title and text";
