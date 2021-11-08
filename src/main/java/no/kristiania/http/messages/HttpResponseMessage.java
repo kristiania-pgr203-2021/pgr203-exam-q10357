@@ -31,7 +31,6 @@ public class HttpResponseMessage extends HttpMessage {
         this.headers.put("Connection", "close");
     }
 
-
     public HttpResponseMessage(int responseCode, String contentType, String messageBody) {
         this.responseCode = responseCode;
         this.headers.put("Content-Type", contentType);
@@ -40,22 +39,12 @@ public class HttpResponseMessage extends HttpMessage {
         this.messageBody = messageBody;
     }
 
-
     public String getResponseText() throws IOException {
         return "HTTP/1.1 " + responseCode + " " + getResponseCodeText(responseCode) + "\r\n" +
                 getResponseHeaders() +
                 "\r\n" +
                 messageBody;
     }
-
-    //Why doesn't this work?
-    /*public String getResponseText() throws IOException {
-        System.out.println(messageBody);
-        return String.format("HTTP/1.1 %d %s\r\n" +
-                getResponseHeaders() +
-                "\r\n" +
-                messageBody, responseCode, getResponseCodeText(responseCode));
-    }*/
 
     private String getResponseCodeText(int responseCode) throws IOException {
         if (responseCodeTexts.containsKey(responseCode)) {
