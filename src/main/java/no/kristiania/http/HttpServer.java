@@ -143,8 +143,7 @@ public class HttpServer {
 
             writeResponse(clientSocket, response);
         }else{
-            text = "Error";
-            responseCode = 404;
+            writeResponse(clientSocket, new HttpResponseMessage(404, "Error"));
         }
     }
 
