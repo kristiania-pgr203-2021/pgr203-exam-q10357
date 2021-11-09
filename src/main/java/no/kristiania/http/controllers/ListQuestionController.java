@@ -62,12 +62,12 @@ public class ListQuestionController implements HttpController {
         response +=
             "<h1 class=\"title is-1\">" + question.getTitle() + "</h1>" +
             "<h3 class=\"subtitle is-4\">" + question.getDescription() + "</h2>" +
-            renderAnswerOptions(question);
+            getAnswerOptions(question);
 
         return response;
     }
 
-    private String renderAnswerOptions(Question question) {
+    private String getAnswerOptions(Question question) {
         String response = "";
 
         for (AnswerOption answerOption: question.getAnswerOptions()) {
