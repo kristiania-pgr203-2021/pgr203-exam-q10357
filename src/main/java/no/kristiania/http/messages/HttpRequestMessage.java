@@ -10,14 +10,14 @@ public class HttpRequestMessage extends HttpMessage {
 
     public HttpRequestMessage(Socket socket) throws IOException {
         super(socket);
-        String requestTarget = getRequestTarget();
+        String requestTarget = getFullRequestTarget();
 
         //hvis vi har content length kan vi parse messagebody, hvis ikke kan den være tom
         if (headers.containsKey("Content-Length")) {
             messageBody = readCharacters(socket, getContentLength());
             setQueries(messageBody);
-        } else if(requestTarget.contains("?")){
-            setQueries(requestTarget);
+        } else if (requestTarget.contains("?")) {
+            setQueries(requestTarget.split("\\?")[1]);
         }
     }
 
@@ -31,9 +31,18 @@ public class HttpRequestMessage extends HttpMessage {
     }
 
     public String getRequestTarget() {
-        if(startLine.length > 1){
+        if (startLine.length > 1 && startLine[1].contains("?")) {
+            return startLine[1].substring(0, startLine[1].indexOf("?"));
+        }
+
+        return getFullRequestTarget();
+    }
+
+    private String getFullRequestTarget() {
+        if (startLine.length > 1) {
             return startLine[1];
         }
+
         return "";
     }
 }

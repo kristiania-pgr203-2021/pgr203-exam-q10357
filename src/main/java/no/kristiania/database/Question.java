@@ -1,5 +1,6 @@
 package no.kristiania.database;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Question {
@@ -10,7 +11,7 @@ public class Question {
 
     private String highLabel;
 
-    private List<AnswerOption> answerOptions;
+    private List<AnswerOption> answerOptions = new ArrayList<>();
 
     public void setId(Long id) {
         this.id = id;

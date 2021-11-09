@@ -86,12 +86,12 @@ public class HttpServer {
         responseCode = 200;
 
 
-        if(requestTarget.endsWith(".html"))
+        if(requestTarget.contains(".html"))
         {
             contentType = "text/html";
             searchDirectoryAndSetFileResponse();
         }
-        else if(requestTarget.endsWith(".css")){
+        else if(requestTarget.contains(".css")){
             contentType = "stylesheet";
             searchDirectoryAndSetFileResponse();
         }

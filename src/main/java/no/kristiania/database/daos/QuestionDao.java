@@ -60,6 +60,8 @@ public class QuestionDao extends AbstractDao<Question>{
         question.setId(rs.getLong("id"));
         question.setTitle(rs.getString("title"));
         question.setDescription(rs.getString("description"));
+        question.setLowLabel(rs.getString("minAnswerLabel"));
+        question.setHighLabel(rs.getString("maxAnswerLabel"));
 
         return question;
     }
