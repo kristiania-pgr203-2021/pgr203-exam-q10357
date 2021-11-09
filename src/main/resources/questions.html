@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Kristiania Questionnaire</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+</head>
+<body class="has-background-danger-light" style="height: 100vh">
+    <section class="section">
+        <div class="container">
+            <h1 class="title is-1">Survey</h1>
+            <div id="questions"></div>
+            <div id="answerOptions">
+                <div id="answer" class="control">
+                    <label class="radio">
+                        <input type="radio" name="answer">
+                        1
+                    </label>
+                    <label class="radio">
+                        <input type="radio" name="answer">
+                        2
+                    </label>
+                    <label class="radio">
+                        <input type="radio" name="answer">
+                        3
+                    </label>
+                    <label class="radio">
+                        <input type="radio" name="answer">
+                        4
+                    </label>
+                    <label class="radio">
+                        <input type="radio" name="answer">
+                        5
+                    </label>
+
+                    <div>
+                        <a href="index.html">Return to front page</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+<script>
+    fetch("/api/questions")
+        .then(function(response) {
+            return response.text();
+        }).then(function(text) {
+        document.getElementById("questions").innerHTML = text;
+    });
+
+    function addAnswerOption(answerOptions) {
+        return `<div id="answerOption" class="control">${getOptionValues()}</div>`
+    }
+
+    function getOptionValues() {
+        for(let i = 0; i < 5; i++){
+
+        }
+    }
+</script>
+</html>
