@@ -46,7 +46,7 @@ public class ListQuestionController implements HttpController {
             e.printStackTrace();
         }
 
-        return new HttpResponseMessage(303, responseText);
+        return new HttpResponseMessage(200, responseText);
     }
 
     private HttpResponseMessage listQuestions() {
@@ -69,6 +69,7 @@ public class ListQuestionController implements HttpController {
                         "<a href=\"/answerQuestion.html?id=" + q.getId() +"\">" + q.getTitle() + "</a>" +
                     "</li>";
         }
+        System.out.println(response);
 
         return response;
     }
