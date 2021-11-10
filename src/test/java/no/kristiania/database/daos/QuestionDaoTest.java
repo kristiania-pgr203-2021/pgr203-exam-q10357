@@ -12,7 +12,6 @@ import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -88,7 +87,6 @@ public class QuestionDaoTest {
             questions.add(TestData.exampleQuestion());
             qDao.save(question);
         }
-        Iterable<Question> iterable = convert.
 
         assertThat(qDao.listAll())
                 .extracting(Question::getDescription)
