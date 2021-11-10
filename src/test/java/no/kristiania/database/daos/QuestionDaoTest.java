@@ -80,19 +80,4 @@ public class QuestionDaoTest {
 
     }
 
-    @Test
-    void shouldListAllQuestions() throws SQLException {
-        Collection<Question> questions = new ArrayList<>();
-        for(int i = 0; i < 100; i++){
-            questions.add(TestData.exampleQuestion());
-            qDao.save(question);
-        }
-
-        assertThat(qDao.listAll())
-                .extracting(Question::getDescription)
-                .containsAll((Iterable)questions);
-    }
-
-
-
 }
