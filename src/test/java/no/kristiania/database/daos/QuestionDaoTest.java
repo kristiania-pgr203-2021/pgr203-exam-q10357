@@ -11,6 +11,8 @@ import org.junit.jupiter.api.Test;
 import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -48,6 +50,16 @@ public class QuestionDaoTest {
                 .isEqualTo(question);
     }
 
+    @Test
+    void shouldSaveQuestionWithoutSqlInjection() throws SQLException {
+        Question question = TestData.sqlInjectionAttempt();
+        qDao.save(question);
+
+        assertThat(qDao.retrieve(question.getId()).getDescription())
+                .isEqualTo(question.getDescription());
+
+    }
+
     /*@Test
     void shouldGetErrorMessageForNonExistingID() throws SQLException {
         qDao.retrieve(1000000000);
@@ -69,8 +81,18 @@ public class QuestionDaoTest {
 
     }
 
-    void shouldListAllQuestions(){
-        Question q1;
+    @Test
+    void shouldListAllQuestions() throws SQLException {
+        Collection<Question> questions = new ArrayList<>();
+        for(int i = 0; i < 100; i++){
+            questions.add(TestData.exampleQuestion());
+            qDao.save(question);
+        }
+        Iterable<Question> iterable = convert.
+
+        assertThat(qDao.listAll())
+                .extracting(Question::getDescription)
+                .containsAll((Iterable)questions);
     }
 
 

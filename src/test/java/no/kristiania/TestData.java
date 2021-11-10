@@ -24,6 +24,7 @@ public class TestData {
         return dataSource;
     }
 
+
     public static String pickOne(String... alternatives){
         return alternatives[new Random().nextInt(alternatives.length)];
     }
@@ -34,6 +35,15 @@ public class TestData {
         option.setText(TestData.pickOne("Something", "AnotherThing", "This", "That", "Whatever"));
         option.setQuestionId(question.getId());
         return option;
+    }
+
+    public static Question sqlInjectionAttempt(){
+        Question question = new Question();
+        question.setTitle("SqlInjection");
+        question.setDescription("'); DROP TABLE question; --");
+        question.setLowLabel("1");
+        question.setHighLabel("10");
+        return question;
     }
 
     public static UserAnswer exampleUserAnswer(Question q, AnswerOption ao, SessionUser user){
@@ -50,7 +60,8 @@ public class TestData {
         question.setTitle(TestData.pickOne("Food", "Cats", "Test", "Fails..", "Pass!", "Give us an A?"));
         question.setDescription(TestData.pickOne("Are you hungry?","Do you like cats?", "Do you like A's?",
                 "Why are you failing?", "Have you heard about ENJIN coin?"));
-
+        question.setLowLabel("1");
+        question.setHighLabel("10");
         return question;
     }
 
