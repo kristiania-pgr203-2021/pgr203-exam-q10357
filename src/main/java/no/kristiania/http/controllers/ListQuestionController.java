@@ -14,6 +14,9 @@ public class ListQuestionController implements HttpController {
     private final QuestionDao qDao;
     private AnswerOptionDao answerOptionDao;
 
+    //Instance variables
+    String responseText = "";
+
     public ListQuestionController(QuestionDao questionDao) {
         this.qDao = questionDao;
     }
@@ -26,12 +29,17 @@ public class ListQuestionController implements HttpController {
     @Override
     public HttpResponseMessage handle(HttpRequestMessage request) {
         String target = request.getRequestTarget();
-        String responseText = "";
+        System.out.println(target);
+        if(target.equals("/api/questionOptions")){
+            return listQuestions();
+        }
 
         try {
             if(request.queries.isEmpty()){
+                System.out.println("Empty queries");
                 responseText = getQuestionsForSurvey();
             } else {
+                System.out.println("Non empty queries");
                 responseText = getQuestionAndAnswerOptions(Long.parseLong(request.queries.get("id")));
             }
         } catch (SQLException e) {
@@ -39,6 +47,18 @@ public class ListQuestionController implements HttpController {
         }
 
         return new HttpResponseMessage(303, responseText);
+    }
+
+    private HttpResponseMessage listQuestions() {
+        try {
+            for(Question q : qDao.listAll()){
+                responseText += "<option value=" + q.getId() + ">" + q.getDescription() + "</option>";
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return new HttpResponseMessage(200, responseText);
     }
 
     private String getQuestionsForSurvey() throws SQLException {

@@ -45,8 +45,8 @@ public class QuestionDaoTest {
     @Test
     void shouldRetrieveSavedQuestion() throws SQLException {
         assertThat(qDao.retrieve(question.getId()))
-                .usingRecursiveComparison()
-                .isEqualTo(question);
+                .extracting(Question::getDescription)
+                .isEqualTo(question.getDescription());
     }
 
     @Test
@@ -68,6 +68,7 @@ public class QuestionDaoTest {
     void shouldUpdateQuestion() throws SQLException {
         question.setDescription("Do you like pink?");
         question.setTitle("Colors");
+
 
         //Generating userAnswer and testing to see it deletes as we update question
         UserAnswer answer = TestData.exampleUserAnswer(question, question.getAnswerOptions().get(0), user);

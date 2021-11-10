@@ -12,10 +12,10 @@
     <div class="container">
 
         <h1 class="title is-1" >Add question member</h1>
-        <form method="POST" action="/api/newQuestion">
+        <form method="GET" action="/api/alternativeAnswers">
             <h4 class="title is-4" style="margin-bottom: 5px">Add options</h4>
             <label>Question: <select id="questions" name="questions" /></label>
-            <label>Option 1: <input type="text" name="text" /></label>
+            <label>Option 1: <input type="text" name="option" /></label>
             <button class="button is-danger">Add</button>
         </form>
         <div>

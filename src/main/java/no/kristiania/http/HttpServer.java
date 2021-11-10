@@ -131,7 +131,6 @@ public class HttpServer {
     }
 
     private void connectController(Socket clientSocket) throws IOException {
-        System.out.println("Now we in connect");
         String requestTarget = requestMessage.getRequestTarget();
         if(requestTarget.contains("?")){
             requestTarget = requestTarget.substring(0, requestTarget.indexOf("?"));

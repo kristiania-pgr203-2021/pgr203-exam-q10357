@@ -12,6 +12,7 @@ import java.util.List;
 public class QuestionDao extends AbstractDao<Question>{
     private final UserAnswerDao uaDao = new UserAnswerDao(this.dataSource);
     private final AnswerOptionDao aoDao = new AnswerOptionDao(this.dataSource);
+    private boolean isUpdate;
 
 
     public QuestionDao(DataSource dataSource) {
@@ -24,6 +25,7 @@ public class QuestionDao extends AbstractDao<Question>{
     }
 
     public void update(Question question) throws SQLException {
+        isUpdate = true;
         update(question, "update question " +
                 "set title  = ?, description = ? " +
                  "where id = " + question.getId());
@@ -39,7 +41,7 @@ public class QuestionDao extends AbstractDao<Question>{
 
     @Override
     protected void prepareStatement(Question question, PreparedStatement statement) throws SQLException {
-        if(question.getHighLabel() == null || question.getLowLabel() == null){
+        if(isUpdate == true){
             prepareStatementForUpdate(question, statement);
             return;
         }
@@ -52,6 +54,7 @@ public class QuestionDao extends AbstractDao<Question>{
     protected void prepareStatementForUpdate(Question question, PreparedStatement statement) throws SQLException {
         statement.setString(1, question.getTitle());
         statement.setString(2, question.getDescription());
+        isUpdate = false;
     }
 
     @Override
