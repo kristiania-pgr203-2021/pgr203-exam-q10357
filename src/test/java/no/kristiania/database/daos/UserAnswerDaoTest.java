@@ -29,6 +29,8 @@ public class UserAnswerDaoTest {
     private static void setupDatabase() throws SQLException {
         question.setTitle("Question Test");
         question.setDescription("Test");
+        question.setLowLabel("low");
+        question.setHighLabel("high");
         questionDao.save(question);
 
         // Add 4 answer options to the question
