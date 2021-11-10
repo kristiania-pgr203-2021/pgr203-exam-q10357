@@ -28,7 +28,6 @@ public class AnswerOptionDao extends AbstractDao<AnswerOption>{
         return retrieve(id, "select * from answerOption where id = ?");
     }
 
-
     @Override
     protected AnswerOption mapFromResultSet(ResultSet rs) throws SQLException {
         AnswerOption answerOption = new AnswerOption();
