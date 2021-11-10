@@ -30,7 +30,7 @@ public class ListQuestionController implements HttpController {
 
         try {
             if(request.queries.isEmpty()){
-                responseText = getQuestions();
+                responseText = getQuestionsForSurvey();
             } else {
                 responseText = getQuestionAndAnswerOptions(Long.parseLong(request.queries.get("id")));
             }
@@ -38,10 +38,10 @@ public class ListQuestionController implements HttpController {
             e.printStackTrace();
         }
 
-        return new HttpResponseMessage(200, responseText);
+        return new HttpResponseMessage(303, responseText);
     }
 
-    private String getQuestions() throws SQLException {
+    private String getQuestionsForSurvey() throws SQLException {
         String response = "";
 
         for(Question q : qDao.listAll()){

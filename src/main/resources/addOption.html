@@ -15,8 +15,6 @@
         <form method="POST" action="/api/newQuestion">
             <h4 class="title is-4" style="margin-bottom: 5px">Add options</h4>
             <label>Option 1: <input type="text" name="text" /></label>
-            <label>Option 2: <input type="text" name="text" /></label>
-            <label>Option 3: <input type="text" name="text" /></label>
             <button class="button is-danger">Add</button>
         </form>
         <div>
@@ -24,6 +22,13 @@
         </div>
     </div>
     <section>
-
 </body>
+<script>
+    fetch("/api/questionOptions")
+        .then(function(response) {
+            return response.text();
+        }).then(function(text) {
+        document.getElementById("questions").innerHTML = text;
+    });
+</script>
 </html>
