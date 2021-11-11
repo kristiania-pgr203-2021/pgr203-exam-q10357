@@ -93,7 +93,8 @@ public class ListQuestionController implements HttpController {
 
         for (AnswerOption answerOption: question.getAnswerOptions()) {
             response +=
-                "<div>" +
+                "<div style=\"margin-bottom:20px;\">" +
+                    "<h4 class= \"subtitle is-5\" style=\"margin-bottom: 5px\">" + answerOption.getText() + "</h4>" +
                     "<div style=\"display:flex;\" id=\"answerOption-" + answerOption.getId() + "\" class=\"control\">" +
                         "<div>" + question.getLowLabel() + "</div>" +
                         getAnswerLabels(answerOption.getId()) +
