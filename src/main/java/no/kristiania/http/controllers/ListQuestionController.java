@@ -96,9 +96,9 @@ public class ListQuestionController implements HttpController {
                 "<div style=\"margin-bottom:20px;\">" +
                     "<h4 class= \"subtitle is-5\" style=\"margin-bottom: 5px\">" + answerOption.getText() + "</h4>" +
                     "<div style=\"display:flex;\" id=\"answerOption-" + answerOption.getId() + "\" class=\"control\">" +
-                        "<div>" + question.getLowLabel() + "</div>" +
+                        "<div style=\"margin-right: 10px\">" + question.getLowLabel() + "</div>" +
                         getAnswerLabels(answerOption.getId()) +
-                        "<div>" + question.getHighLabel() + "</div>" +
+                        "<div style=\"margin-left: 10px\">" + question.getHighLabel() + "</div>" +
                     "</div>" +
                 "</div>";
         }
