@@ -2,6 +2,10 @@ package no.kristiania;
 
 
 import no.kristiania.database.*;
+import no.kristiania.database.daos.AnswerOptionDao;
+import no.kristiania.database.daos.QuestionDao;
+import no.kristiania.database.daos.SurveyDao;
+import org.checkerframework.checker.units.qual.A;
 import org.flywaydb.core.Flyway;
 import org.h2.engine.Session;
 import org.h2.jdbcx.JdbcDataSource;
@@ -12,6 +16,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class TestData {
     public static DataSource testDataSource(String sourceDb){
@@ -21,6 +26,56 @@ public class TestData {
         return dataSource;
     }
 
+
+    public static SurveyDao fillSurveyTable(DataSource dataSource) {
+        SurveyDao surveyDao = new SurveyDao(dataSource);
+
+        for(int i = 0; i < 10; i++){
+            Survey survey = exampleSurvey();
+            try {
+                surveyDao.save(survey);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return surveyDao;
+    }
+
+    public static QuestionDao fillQuestionTable(DataSource dataSource, SurveyDao surveyDao) {
+        QuestionDao questionDao = new QuestionDao(dataSource);
+
+        try {
+            for(Survey s: surveyDao.listAll()){
+                for(int i = 0; i < generateRandomNumber(2, 10); i++){
+                    Question question = exampleQuestion(s);
+                    questionDao.save(question);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return questionDao;
+    }
+
+    public static AnswerOptionDao fillOptionTable(DataSource dataSource, QuestionDao questionDao) {
+        AnswerOptionDao answerOptionDao = new AnswerOptionDao(dataSource);
+
+        try {
+            for(Question q: questionDao.listAll()){
+                for(int i = 0; i < generateRandomNumber(2, 10); i++){
+                    AnswerOption option = exampleOption(q);
+                    answerOptionDao.save(option);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return answerOptionDao;
+    }
+
+    public static int generateRandomNumber(int low, int max){
+        return ThreadLocalRandom.current().nextInt(low, max);
+    }
 
     public static String pickOne(String... alternatives){
         return alternatives[new Random().nextInt(alternatives.length)];

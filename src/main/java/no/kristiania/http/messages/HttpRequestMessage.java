@@ -22,11 +22,14 @@ public class HttpRequestMessage extends HttpMessage {
     }
 
     private void setQueries(String query) {
+        try{
         for (String queryParameter : query.split("&")) {
             int equalsPos = queryParameter.indexOf('='); //finne hvor "=" er
             String parameterName = queryParameter.substring(0, equalsPos); //fra start til =
             String parameterValue = queryParameter.substring(equalsPos + 1);
             queries.put(parameterName, parameterValue);
+        }}catch(Exception e){
+            new HttpResponseMessage(400, "Something went wrong");
         }
     }
 

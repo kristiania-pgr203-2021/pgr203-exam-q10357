@@ -2,86 +2,80 @@ package no.kristiania.database.daos;
 
 import no.kristiania.TestData;
 import no.kristiania.database.*;
+import no.kristiania.http.HttpServer;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import javax.sql.DataSource;
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.ThreadLocalRandom;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class QuestionDaoTest {
     private static final DataSource dataSource = TestData.testDataSource("QuestionDaoTest");
-    private static final QuestionDao qDao = new QuestionDao(dataSource);
-    private static final AnswerOptionDao aoDao = new AnswerOptionDao(dataSource);
-    private static final UserAnswerDao uaDao = new UserAnswerDao(dataSource);
-    private static final SessionUser user = new SessionUser();
-    private static final SessionUserDao userDao = new SessionUserDao(dataSource);
-    private static final SurveyDao sDao = new SurveyDao(dataSource);
-    private static Survey survey;
-    private static Question question;
+    private static QuestionDao questionDao;
+    private static AnswerOptionDao answerOptionDao;
+    private static UserAnswerDao userAnswerDao;
+    private static SessionUser user;
+    private static SessionUserDao sessionUserDao;
+    private static SurveyDao surveyDao;
+
+    private static List<Survey> surveys;
+    private static List<Question> questions;
+
+    //Variables for generating numbers
+    private int low = 1;
 
     @BeforeAll
-    private static void setupDatabase() throws SQLException {
-        survey = TestData.exampleSurvey();
-        sDao.save(survey);
+    public static void fillDataBase() throws SQLException {
+        surveyDao = TestData.fillSurveyTable(dataSource);
+        questionDao = TestData.fillQuestionTable(dataSource, surveyDao);
+        answerOptionDao = TestData.fillOptionTable(dataSource, questionDao);
 
-        question = TestData.exampleQuestion(survey);
-        qDao.save(question);
-
-        // Add 4 answer options to the question
-        ArrayList<AnswerOption> answerOptions = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
-            AnswerOption answerOption = TestData.exampleOption(question);
-            aoDao.save(answerOption);
-            answerOptions.add(answerOption);
-        }
-
-        question.setAnswerOptions(answerOptions);
-
-        user.setCookieId("testId");
-        userDao.save(user);
+        surveys = surveyDao.listAll();
+        questions = questionDao.listAll();
     }
 
     @Test
     void shouldRetrieveSavedQuestion() throws SQLException {
-        assertThat(qDao.retrieve(question.getId()))
+        Question question = TestData.exampleQuestion(surveys.get(TestData.generateRandomNumber(low, surveys.size())));
+        questionDao.save(question);
+
+        assertThat(questionDao.retrieve(question.getId()))
                 .extracting(Question::getDescription)
                 .isEqualTo(question.getDescription());
     }
 
     @Test
     void shouldSaveQuestionWithoutSqlInjection() throws SQLException {
-        Question question = TestData.sqlInjectionAttempt(survey);
-        qDao.save(question);
+        Question question = TestData.sqlInjectionAttempt(surveyDao.retrieve(TestData.generateRandomNumber(low, surveys.size())));
+        questionDao.save(question);
 
-        assertThat(qDao.retrieve(question.getId()).getDescription())
+        assertThat(questionDao.retrieve(question.getId()).getDescription())
                 .isEqualTo(question.getDescription());
 
     }
 
-    /*@Test
-    void shouldGetErrorMessageForNonExistingID() throws SQLException {
-        qDao.retrieve(1000000000);
-    }*/
+
 
     @Test
     void shouldUpdateQuestion() throws SQLException {
+        Question question = questionDao.retrieve(TestData.generateRandomNumber(low, questions.size()));
         String update = "Which colors do you like?";
         question.setDescription(update);
         question.setTitle("Colors");
 
 
         //Generating userAnswer and testing to see it deletes as we update question
-        UserAnswer answer = TestData.exampleUserAnswer(question, question.getAnswerOptions().get(0), user);
-        uaDao.save(answer);
 
-        qDao.update(question);
+        questionDao.update(question);
 
-        assertThat(uaDao.listAll(question.getId(), user.getId()).isEmpty());
-        assertThat(qDao.retrieve(question.getId()).getDescription()).isEqualTo(update);
+        assertThat(questionDao.retrieve(question.getId()).getDescription()).isEqualTo(update);
 
     }
 
