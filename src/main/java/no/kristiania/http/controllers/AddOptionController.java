@@ -11,7 +11,6 @@ import java.util.Map;
 
 public class AddOptionController implements HttpController {
     private final AnswerOptionDao answerOptionDao;
-    private String responseTxt = "";
 
     public AddOptionController(AnswerOptionDao answerOptionDao) {
         this.answerOptionDao = answerOptionDao;
@@ -50,7 +49,6 @@ public class AddOptionController implements HttpController {
 
     private boolean validateQueries(Map<String, String> queries) {
         if (!queries.containsKey("option") || !queries.containsKey("question") || !QueryHandler.checkAllQueries(queries)) {
-            responseTxt = "Bad request - the post request must include valid option";
             return false;
         }
         return true;

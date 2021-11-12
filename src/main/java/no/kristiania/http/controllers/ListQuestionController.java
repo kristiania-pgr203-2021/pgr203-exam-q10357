@@ -14,9 +14,6 @@ public class ListQuestionController implements HttpController {
     private final QuestionDao qDao;
     private AnswerOptionDao answerOptionDao;
 
-    //Instance variables
-    String responseText = "";
-
     public ListQuestionController(QuestionDao questionDao) {
         this.qDao = questionDao;
     }
@@ -29,7 +26,8 @@ public class ListQuestionController implements HttpController {
     @Override
     public HttpResponseMessage handle(HttpRequestMessage request) {
         String target = request.getRequestTarget();
-        System.out.println(target);
+        String responseText = "";
+
         if(target.equals("/api/questionOptions")){
             return listQuestions();
         }
@@ -50,6 +48,7 @@ public class ListQuestionController implements HttpController {
     }
 
     private HttpResponseMessage listQuestions() {
+        String responseText = "";
         try {
             for(Question q : qDao.listAll()){
                 responseText += "<option value=" + q.getId() + ">" + q.getDescription() + "</option>";
