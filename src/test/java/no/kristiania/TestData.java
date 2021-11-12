@@ -1,10 +1,7 @@
 package no.kristiania;
 
 
-import no.kristiania.database.AnswerOption;
-import no.kristiania.database.Question;
-import no.kristiania.database.SessionUser;
-import no.kristiania.database.UserAnswer;
+import no.kristiania.database.*;
 import org.flywaydb.core.Flyway;
 import org.h2.engine.Session;
 import org.h2.jdbcx.JdbcDataSource;
@@ -37,8 +34,11 @@ public class TestData {
         return option;
     }
 
-    public static Question sqlInjectionAttempt(){
+    public static Question sqlInjectionAttempt(Survey survey){
+        //Adding surveyID to question to avoid CONSTRAINT conflicts
         Question question = new Question();
+        question.setSurveyId(survey.getId());
+
         question.setTitle("SqlInjection");
         question.setDescription("'); DROP TABLE question; --");
         question.setLowLabel("1");
@@ -55,13 +55,21 @@ public class TestData {
         return answer;
     }
 
-    public static Question exampleQuestion() {
+    public static Survey exampleSurvey(){
+        Survey survey = new Survey();
+
+        survey.setName(pickOne("One survey", "Second survey", "Third Survey"));
+        return survey;
+    }
+
+    public static Question exampleQuestion(Survey survey) {
         Question question = new Question();
-        question.setTitle(TestData.pickOne("Food", "Cats", "Test", "Fails..", "Pass!", "Give us an A?"));
-        question.setDescription(TestData.pickOne("Are you hungry?","Do you like cats?", "Do you like A's?",
+        question.setSurveyId((survey.getId()));
+        question.setTitle(pickOne("Food", "Cats", "Test", "Fails..", "Pass!", "Give us an A?"));
+        question.setDescription(pickOne("Are you hungry?","Do you like cats?", "Do you like A's?",
                 "Why are you failing?", "Have you heard about ENJIN coin?"));
-        question.setLowLabel("1");
-        question.setHighLabel("10");
+        question.setLowLabel(pickOne("Helt uenig", "Ikke sant", "Lite", "Svært lite"));
+        question.setHighLabel(pickOne("Helt enig", "Veldig sant", "Mye", "Svært mye"));
         return question;
     }
 

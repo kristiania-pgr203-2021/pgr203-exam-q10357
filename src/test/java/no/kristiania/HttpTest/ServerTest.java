@@ -1,8 +1,10 @@
 package no.kristiania.HttpTest;
 
 import no.kristiania.TestData;
+import no.kristiania.database.Survey;
 import no.kristiania.database.daos.QuestionDao;
 import no.kristiania.database.daos.QuestionDaoTest;
+import no.kristiania.database.daos.SurveyDao;
 import no.kristiania.http.HttpClient;
 import no.kristiania.http.HttpServer;
 import no.kristiania.http.controllers.ListQuestionController;
@@ -19,17 +21,21 @@ public class ServerTest {
     private HttpServer server;
     private static final DataSource dataSource = TestData.testDataSource("HttpServerTest");
     private static final QuestionDao questionDao = new QuestionDao(dataSource);
+    private static final SurveyDao surveyDao = new SurveyDao(dataSource);
+    private static Survey survey;
 
     @BeforeEach
-    public void setup() throws IOException{
+    public void setup() throws IOException, SQLException {
         server = new HttpServer(0, dataSource);
         server.start();
         server.setRoot(Paths.get("src/main/resources"));
+        survey = TestData.exampleSurvey();
+        surveyDao.save(survey);
     }
 
     @Test
-    void shouldReturnRolesFromServer() throws IOException, SQLException {
-        questionDao.save(TestData.exampleQuestion());
+    void shouldReturnQuestionFromServer() throws IOException, SQLException {
+        questionDao.save(TestData.exampleQuestion(survey));
         server.addController("/api/questionOptions", new ListQuestionController(questionDao));
         HttpClient client = new HttpClient("localhost", server.getActualPort(), "/api/questionOptions");
         assertEquals(

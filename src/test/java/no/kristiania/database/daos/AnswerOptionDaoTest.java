@@ -3,6 +3,7 @@ package no.kristiania.database.daos;
 import no.kristiania.TestData;
 import no.kristiania.database.AnswerOption;
 import no.kristiania.database.Question;
+import no.kristiania.database.Survey;
 import org.assertj.core.api.AssertionsForClassTypes;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -17,14 +18,15 @@ public class AnswerOptionDaoTest {
     private static final DataSource dataSource = TestData.testDataSource(AnswerOptionDaoTest.class.getName());
     private static final QuestionDao questionDao = new QuestionDao(dataSource);
     private static final AnswerOptionDao optionDao = new AnswerOptionDao(dataSource);
-    private static final Question question = new Question();
+    private static final SurveyDao surveyDao = new SurveyDao(dataSource);
+    private static final Survey survey = TestData.exampleSurvey();
+    private static Question question;
 
     @BeforeAll
     private static void setupDatabase() throws SQLException {
-        question.setTitle("Question Test");
-        question.setDescription("Test");
-        question.setLowLabel("low");
-        question.setHighLabel("high");
+        surveyDao.save(survey);
+
+        question = TestData.exampleQuestion(survey);
         questionDao.save(question);
     }
 

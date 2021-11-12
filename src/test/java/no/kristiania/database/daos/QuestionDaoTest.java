@@ -1,10 +1,7 @@
 package no.kristiania.database.daos;
 
 import no.kristiania.TestData;
-import no.kristiania.database.AnswerOption;
-import no.kristiania.database.Question;
-import no.kristiania.database.SessionUser;
-import no.kristiania.database.UserAnswer;
+import no.kristiania.database.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -22,10 +19,16 @@ public class QuestionDaoTest {
     private static final UserAnswerDao uaDao = new UserAnswerDao(dataSource);
     private static final SessionUser user = new SessionUser();
     private static final SessionUserDao userDao = new SessionUserDao(dataSource);
-    private static Question question = TestData.exampleQuestion();
+    private static final SurveyDao sDao = new SurveyDao(dataSource);
+    private static Survey survey;
+    private static Question question;
 
     @BeforeAll
     private static void setupDatabase() throws SQLException {
+        survey = TestData.exampleSurvey();
+        sDao.save(survey);
+
+        question = TestData.exampleQuestion(survey);
         qDao.save(question);
 
         // Add 4 answer options to the question
@@ -51,7 +54,7 @@ public class QuestionDaoTest {
 
     @Test
     void shouldSaveQuestionWithoutSqlInjection() throws SQLException {
-        Question question = TestData.sqlInjectionAttempt();
+        Question question = TestData.sqlInjectionAttempt(survey);
         qDao.save(question);
 
         assertThat(qDao.retrieve(question.getId()).getDescription())
