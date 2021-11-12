@@ -10,7 +10,6 @@ import java.sql.SQLException;
 
 public class ListSurveyController implements HttpController{
     private final SurveyDao surveyDao;
-    private String responseText = "";
 
     public ListSurveyController(SurveyDao surveyDao) {
         this.surveyDao = surveyDao;
@@ -18,6 +17,8 @@ public class ListSurveyController implements HttpController{
 
     @Override
     public HttpResponseMessage handle(HttpRequestMessage request) {
+        String responseText = "";
+
         try {
             for(Survey s : surveyDao.listAll()){
                 responseText += "<option value=" + s.getId() + ">" + s.getName() + "</option>";
