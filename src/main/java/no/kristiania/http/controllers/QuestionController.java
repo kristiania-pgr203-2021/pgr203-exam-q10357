@@ -22,7 +22,6 @@ public class QuestionController implements  HttpController{
 
     @Override
     public HttpResponseMessage handle(HttpRequestMessage request) {
-        System.out.println("Now we in handle");
         Map<String, String> queries =QueryHandler.handleQueries(request.queries);
         System.out.println(queries);
 
@@ -41,6 +40,7 @@ public class QuestionController implements  HttpController{
 
         switch(apiTarget){
             case "newQuestion":
+                question.setSurveyId(Long.parseLong(queries.get("survey")));
                 question.setHighLabel(queries.get("high_label"));
                 question.setLowLabel(queries.get("low_label"));
                 addQuestionToDatabase(question);
@@ -77,8 +77,7 @@ public class QuestionController implements  HttpController{
 
 
     private boolean validateQueries(Map<String, String> queries) {
-        if (!queries.containsKey("text") || !queries.containsKey("title")
-                || queries.get("text").length() == 0 || queries.get("title").length() == 0) {
+        if (!queries.containsKey("text") || !queries.containsKey("title") || !QueryHandler.checkAllQueries(queries)) {
             responseTxt = "Bad request - the post request must include valid title and text";
             return false;
         }

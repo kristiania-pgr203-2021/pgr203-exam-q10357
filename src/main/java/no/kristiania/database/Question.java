@@ -5,10 +5,10 @@ import java.util.List;
 
 public class Question {
     private Long id;
+    private Long surveyId;
     private String title;
     private String description;
     private String lowLabel;
-
     private String highLabel;
 
     private List<AnswerOption> answerOptions = new ArrayList<>();
@@ -58,6 +58,14 @@ public class Question {
 
     public List<AnswerOption> getAnswerOptions() {
         return answerOptions;
+    }
+
+    public Long getSurveyId() {
+        return surveyId;
+    }
+
+    public void setSurveyId(Long surveyId) {
+        this.surveyId = surveyId;
     }
 
     @Override

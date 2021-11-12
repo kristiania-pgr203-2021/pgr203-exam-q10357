@@ -11,11 +11,9 @@
 <section class="section">
     <div class="container">
 
-        <h1 class="title is-1" >Add question member</h1>
-        <form method="GET" action="/api/alternativeAnswers">
-            <h4 class="title is-4" style="margin-bottom: 5px">Add options</h4>
-            <label>Question: <select id="questions" name="question" /></label>
-            <label>Option 1: <input type="text" name="option" /></label>
+        <h1 class="title is-1" >Add survey</h1>
+        <form method="POST" action="/api/newSurvey">
+            <label>Name of survey: <input type="text" name="name" /></label>
             <button class="button is-danger">Add</button>
         </form>
         <div>
@@ -24,12 +22,4 @@
     </div>
     <section>
 </body>
-<script>
-    fetch("/api/questionOptions")
-        .then(function(response) {
-            return response.text();
-        }).then(function(text) {
-        document.getElementById("questions").innerHTML = text;
-    });
-</script>
 </html>

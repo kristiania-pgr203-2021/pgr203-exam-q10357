@@ -11,6 +11,7 @@ import java.util.Map;
 
 public class AddOptionController implements HttpController {
     private final AnswerOptionDao answerOptionDao;
+    private String responseTxt = "";
 
     public AddOptionController(AnswerOptionDao answerOptionDao) {
         this.answerOptionDao = answerOptionDao;
@@ -23,7 +24,7 @@ public class AddOptionController implements HttpController {
         Map<String, String> queries = QueryHandler.handleQueries(request.queries);
         System.out.println(queries);
 
-        if (!queries.containsKey("option") || !queries.containsKey("questions")) {
+        if (!validateQueries(queries)) {
             responseTxt = "Bad request - the post request must include title and text";
             return new HttpResponseMessage(400, responseTxt);
         }
@@ -34,7 +35,7 @@ public class AddOptionController implements HttpController {
 
     private void addOptionToDatabase(Map<String, String> queries) {
         String optionText = queries.get("option");
-        Long qId = Long.parseLong(queries.get("questions"));
+        Long qId = Long.parseLong(queries.get("question"));
 
         AnswerOption ao = new AnswerOption();
         ao.setQuestionId(qId);
@@ -45,5 +46,13 @@ public class AddOptionController implements HttpController {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    private boolean validateQueries(Map<String, String> queries) {
+        if (!queries.containsKey("option") || !queries.containsKey("question") || !QueryHandler.checkAllQueries(queries)) {
+            responseTxt = "Bad request - the post request must include valid option";
+            return false;
+        }
+        return true;
     }
 }

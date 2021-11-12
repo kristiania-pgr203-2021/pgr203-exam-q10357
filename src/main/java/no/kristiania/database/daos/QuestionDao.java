@@ -1,6 +1,7 @@
 package no.kristiania.database.daos;
 
 import no.kristiania.database.Question;
+import no.kristiania.database.Survey;
 import no.kristiania.database.UserAnswer;
 
 import javax.sql.DataSource;
@@ -20,11 +21,11 @@ public class QuestionDao extends AbstractDao<Question>{
     }
 
     public void save(Question question) throws SQLException {
-        long id = save(question, "insert into question (title, description, minanswerlabel, maxanswerlabel) values (?, ?, ?, ?)");
+        long id = save(question, "insert into question (survey_id, title, description, minanswerlabel, maxanswerlabel) values (?, ?, ?, ?, ?)");
         question.setId(id);
     }
 
-    public void update(Question question) throws SQLException {
+    public void update(Question question, String... updates) throws SQLException {
         isUpdate = true;
         update(question, "update question " +
                 "set title  = ?, description = ? " +
@@ -45,10 +46,11 @@ public class QuestionDao extends AbstractDao<Question>{
             prepareStatementForUpdate(question, statement);
             return;
         }
-        statement.setString(1, question.getTitle());
-        statement.setString(2, question.getDescription());
-        statement.setString(3, question.getLowLabel());
-        statement.setString(4, question.getHighLabel());
+        statement.setLong(1, question.getSurveyId());
+        statement.setString(2, question.getTitle());
+        statement.setString(3, question.getDescription());
+        statement.setString(4, question.getLowLabel());
+        statement.setString(5, question.getHighLabel());
     }
 
     protected void prepareStatementForUpdate(Question question, PreparedStatement statement) throws SQLException {
@@ -61,6 +63,7 @@ public class QuestionDao extends AbstractDao<Question>{
     protected Question mapFromResultSet(ResultSet rs) throws SQLException {
         Question question = new Question();
         question.setId(rs.getLong("id"));
+        question.setSurveyId(rs.getLong("survey_id"));
         question.setTitle(rs.getString("title"));
         question.setDescription(rs.getString("description"));
         question.setLowLabel(rs.getString("minAnswerLabel"));
@@ -71,5 +74,10 @@ public class QuestionDao extends AbstractDao<Question>{
 
     public List<Question> listAll() throws SQLException {
         return listAll("select * from question");
+    }
+
+    public List<Question> listAll(Survey survey) throws SQLException {
+        if(survey.getId() != null && survey.getId() instanceof  Long);
+        return listAll("select * from question where survey_id = " + survey.getId());
     }
 }

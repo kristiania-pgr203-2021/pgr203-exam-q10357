@@ -8,7 +8,6 @@ import no.kristiania.http.HttpServer;
 import no.kristiania.http.controllers.ListQuestionController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.nio.file.Paths;

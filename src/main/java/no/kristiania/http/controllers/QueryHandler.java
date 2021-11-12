@@ -20,8 +20,18 @@ public class QueryHandler {
        return queries;
     }
 
+
     public static String decode(String s) throws UnsupportedEncodingException {
         String decoded = URLDecoder.decode(s, StandardCharsets.UTF_8.toString());
         return decoded;
+    }
+
+    public static boolean checkAllQueries(Map<String, String> queries) {
+        for(String s : queries.values()){
+            if(s.length() == 0){
+                return false;
+            }
+        }
+        return true;
     }
 }

@@ -66,7 +66,8 @@ public class QuestionDaoTest {
 
     @Test
     void shouldUpdateQuestion() throws SQLException {
-        question.setDescription("Do you like pink?");
+        String update = "Which colors do you like?";
+        question.setDescription(update);
         question.setTitle("Colors");
 
 
@@ -77,7 +78,7 @@ public class QuestionDaoTest {
         qDao.update(question);
 
         assertThat(uaDao.listAll(question.getId(), user.getId()).isEmpty());
-        assertThat(qDao.retrieve(question.getId()).getDescription()).isEqualTo("Do you like pink?");
+        assertThat(qDao.retrieve(question.getId()).getDescription()).isEqualTo(update);
 
     }
 
