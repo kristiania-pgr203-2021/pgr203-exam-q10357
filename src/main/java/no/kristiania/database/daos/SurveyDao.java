@@ -20,7 +20,7 @@ public class SurveyDao extends AbstractDao<Survey>{
     }
 
     public Survey retrieve(long id) throws SQLException {
-        return retrieve(id, "select * from survey where id = ?");
+        return retrieve(id, "select * from questionsurvey where id = ?");
     }
 
     public List<Survey> listAll() throws SQLException {

@@ -11,25 +11,19 @@
     <section class="section">
         <div class="container">
             <h1 class="title is-1">Survey</h1>
-            <div id="questions"></div>
-            <div id="answerOptions">
-                <div id="answer" class="control">
-                    <div>
-                        <br>
-                        <a href="index.html">Return to front page</a>
-                    </div>
-                </div>
-            </div>
+            <div id="surveys"></div>
+            <br>
+            <a href="index.html">Return to front page</a>
         </div>
     </section>
 
 </body>
 <script>
-    fetch("/api/questions")
+    fetch("/api/surveys")
         .then(function(response) {
             return response.text();
         }).then(function(text) {
-        document.getElementById("questions").innerHTML = text;
+        document.getElementById("surveys").innerHTML = text;
     });
 </script>
 </html>

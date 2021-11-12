@@ -13,14 +13,14 @@
             <div id="questionContainer" class="container"></div>
             <button class="button is-danger">Send</button>
             <br><br>
-            <a href="questions.html">Return</a>
+            <a href="surveys.html">Return</a>
         </div>
 
     </section>
 </body>
 <script>
     const searchParams = new URLSearchParams(window.location.search)
-    fetch("/api/questions?id=" + searchParams.get("id"))
+    fetch("/api/surveys?id=" + searchParams.get("id"))
         .then(function (response) {
             return response.text();
         }).then(function (text) {
