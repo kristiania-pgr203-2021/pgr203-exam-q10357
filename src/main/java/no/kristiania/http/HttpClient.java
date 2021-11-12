@@ -28,9 +28,10 @@ public class HttpClient {
         socket.getOutputStream().write(request.getBytes());
 
         responseMessage = new HttpRequestMessage(socket);
+
         String[] startLine = responseMessage.getStartLine();
         responseCode = Integer.valueOf(startLine[1]);
-        System.out.println("In client");
+
     }
 
 

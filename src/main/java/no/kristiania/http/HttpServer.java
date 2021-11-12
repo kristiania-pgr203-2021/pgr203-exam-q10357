@@ -98,7 +98,7 @@ public class HttpServer {
         else if (requestTarget.startsWith("/api")) {
             handleApiRequestTarget(clientSocket);
         } else {
-            responseCode = 404;
+            responseCode = 400;
             text = "Invalid request: " + requestTarget;
         }
 
@@ -142,7 +142,8 @@ public class HttpServer {
 
             writeResponse(clientSocket, response);
         }else{
-            writeResponse(clientSocket, new HttpResponseMessage(404, "Error"));
+            responseCode = 500;
+            writeResponse(clientSocket, new HttpResponseMessage(500, "Error"));
         }
     }
 

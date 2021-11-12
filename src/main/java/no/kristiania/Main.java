@@ -27,6 +27,9 @@ public class Main {
         server.addController("/api/newSurvey", new AddSurveyController(sDao));
         server.addController("/api/surveyOptions", new ListSurveyController(sDao));
         server.addController("/api/surveys", new GetSurveyController(sDao, qDao, aoDao));
+
+        //This is the controller to register answers! Great code tiffany <3
+        server.addController("/api/answerSurvey", new RegisterUserAnswerController());
         server.start();
 
     }

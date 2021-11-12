@@ -18,6 +18,7 @@ public class ListSurveyController implements HttpController{
     @Override
     public HttpResponseMessage handle(HttpRequestMessage request) {
         String responseText = "";
+        System.out.println(request.queries);
 
         try {
             for(Survey s : surveyDao.listAll()){

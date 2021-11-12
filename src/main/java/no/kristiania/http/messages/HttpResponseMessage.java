@@ -11,12 +11,9 @@ public class HttpResponseMessage extends HttpMessage {
         put(303, "See Other");
         put(400, "Bad Request");
         put(404, "Not Found");
+        put(500, "Internal Server Error");
     }};
 
-    public HttpResponseMessage(Socket socket) throws IOException {
-        super(socket);
-        responseCode = Integer.parseInt(startLine[1]);
-    }
 
     public HttpResponseMessage(int responseCode, String messageBody) {
         this.responseCode = responseCode;
@@ -48,6 +45,7 @@ public class HttpResponseMessage extends HttpMessage {
 
     private String getResponseCodeText(int responseCode) throws IOException {
         if (responseCodeTexts.containsKey(responseCode)) {
+            setResponseCode(responseCode);
             return responseCodeTexts.get(responseCode);
         }
 

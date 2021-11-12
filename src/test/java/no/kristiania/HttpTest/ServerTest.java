@@ -55,7 +55,7 @@ public class ServerTest {
     }
 
     @Test
-    void badRequestShouldReturn200() throws IOException {
+    void requestShouldReturn200() throws IOException {
         HttpClient client = new HttpClient("localhost", server.getActualPort(), "/index.html");
         //remember to call executeRequest
         assertEquals(200, client.getResponseCode());
@@ -63,8 +63,8 @@ public class ServerTest {
 
     @Test
     void notFoundRequestTargetShouldReturn404NotFound() throws IOException {
-        HttpClient client = new HttpClient("localhost", server.getActualPort(), "/request/notFound");
-        assertEquals(404, client.getResponseCode());
+        HttpClient client = new HttpClient("localhost", server.getActualPort(), "/api/request/notFound");
+        assertEquals(500, client.getResponseCode());
     }
 
 

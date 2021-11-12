@@ -29,7 +29,7 @@ public class HttpRequestMessage extends HttpMessage {
             String parameterValue = queryParameter.substring(equalsPos + 1);
             queries.put(parameterName, parameterValue);
         }}catch(Exception e){
-            new HttpResponseMessage(400, "Something went wrong");
+            new HttpResponseMessage(500, "Error occured");
         }
     }
 
