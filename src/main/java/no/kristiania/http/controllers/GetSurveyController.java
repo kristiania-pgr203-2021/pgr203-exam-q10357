@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class GetSurveyController implements HttpController {
-    private AnswerOptionDao answerOptionDao;
+    private final AnswerOptionDao answerOptionDao;
     private final QuestionDao questionDao;
     private final SurveyDao surveyDao;
 

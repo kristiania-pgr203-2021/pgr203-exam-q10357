@@ -20,13 +20,11 @@ public class AnswerOptionDaoTest {
     private static final AnswerOptionDao optionDao = new AnswerOptionDao(dataSource);
     private static final SurveyDao surveyDao = new SurveyDao(dataSource);
     private static final Survey survey = TestData.exampleSurvey();
-    private static Question question;
+    private static final Question question = TestData.exampleQuestion(survey);
 
     @BeforeAll
     private static void setupDatabase() throws SQLException {
         surveyDao.save(survey);
-
-        question = TestData.exampleQuestion(survey);
         questionDao.save(question);
     }
 

@@ -1,7 +1,6 @@
 package no.kristiania.database.daos;
 
 import no.kristiania.TestData;
-import no.kristiania.database.AnswerOption;
 import no.kristiania.database.SessionUser;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;

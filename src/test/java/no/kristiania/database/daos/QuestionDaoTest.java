@@ -1,18 +1,15 @@
 package no.kristiania.database.daos;
 
 import no.kristiania.TestData;
-import no.kristiania.database.*;
-import no.kristiania.http.HttpServer;
+import no.kristiania.database.Question;
+import no.kristiania.database.SessionUser;
+import no.kristiania.database.Survey;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import javax.sql.DataSource;
-import java.io.IOException;
-import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Objects;
-import java.util.concurrent.ThreadLocalRandom;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -61,8 +58,6 @@ public class QuestionDaoTest {
 
     }
 
-
-
     @Test
     void shouldUpdateQuestion() throws SQLException {
         Question question = questionDao.retrieve(TestData.generateRandomNumber(low, questions.size()));
@@ -78,5 +73,4 @@ public class QuestionDaoTest {
         assertThat(questionDao.retrieve(question.getId()).getDescription()).isEqualTo(update);
 
     }
-
 }

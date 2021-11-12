@@ -47,7 +47,6 @@ public class UserAnswerDaoTest {
         userDao.save(user);
     }
 
-
     @Test
     public void shouldListAllSavedAnswers() throws SQLException {
         List<AnswerOption> answerOptions = question.getAnswerOptions();
