@@ -1,9 +1,7 @@
 package no.kristiania;
 
 import no.kristiania.database.Datasource;
-import no.kristiania.database.daos.AnswerOptionDao;
-import no.kristiania.database.daos.QuestionDao;
-import no.kristiania.database.daos.SurveyDao;
+import no.kristiania.database.daos.*;
 import no.kristiania.http.HttpServer;
 import no.kristiania.http.controllers.*;
 
@@ -19,6 +17,8 @@ public class Main {
         QuestionDao qDao = new QuestionDao(dataSource);
         SurveyDao sDao = new SurveyDao(dataSource);
         AnswerOptionDao aoDao = new AnswerOptionDao(dataSource);
+        SessionUserDao suDao = new SessionUserDao(dataSource);
+        UserAnswerDao uaDao = new UserAnswerDao(dataSource);
         server.setRoot(Paths.get("src/main/resources"));
         server.addController("/api/newQuestion", new QuestionController(qDao));
         server.addController("/api/updateQuestion", new QuestionController(qDao));
@@ -29,7 +29,7 @@ public class Main {
         server.addController("/api/surveys", new GetSurveyController(sDao, qDao, aoDao));
 
         //This is the controller to register answers! Great code tiffany <3
-        server.addController("/api/answerSurvey", new RegisterUserAnswerController());
+        server.addController("/api/answerSurvey", new RegisterUserAnswerController(aoDao, suDao, uaDao));
         server.start();
 
     }

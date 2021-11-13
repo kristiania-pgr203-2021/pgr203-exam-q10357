@@ -49,4 +49,20 @@ public class AnswerOptionDao extends AbstractDao<AnswerOption>{
                 return null;
             });
     }
+
+    public List<AnswerOption> listAllBySurveyId(Long surveyId) throws SQLException {
+        return listAll(
+                "select ao.id, ao.question_id, ao.text from answerOption ao " +
+                    "inner join question q " +
+                    "ON ao.question_id = q.id " +
+                    "where q.survey_id = ?",
+                statement -> {
+                    try {
+                        statement.setLong(1, surveyId);
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                    return null;
+                });
+    }
 }

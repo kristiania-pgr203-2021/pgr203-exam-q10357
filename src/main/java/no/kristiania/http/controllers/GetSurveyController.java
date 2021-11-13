@@ -58,7 +58,8 @@ public class GetSurveyController implements HttpController {
 
     private String getSurveyAndQuestions(long id) throws SQLException {
         Survey survey = surveyDao.retrieve(id);
-        String response = "<h1 class=\"title is-1\">" + survey.getName() + "</h1>";
+        String response = "<h1 class=\"title is-1\">" + survey.getName() + "</h1>" +
+                "<input type=\"hidden\" id=\"surveyId\" name=\"surveyId\" value=\"" + id + "\">";
 
         for (Question question: questionDao.listAll(survey)) {
             List<AnswerOption> answerOptions = answerOptionDao.listAll(question.getId());
@@ -81,9 +82,9 @@ public class GetSurveyController implements HttpController {
             response +=
                     "<div style=\"margin-bottom:20px;\">" +
                             "<h4 class= \"subtitle is-5\" style=\"margin-bottom: 5px\">" + answerOption.getText() + "</h4>" +
-                            "<div style=\"display:flex;\" id=\"answerOption-" + answerOption.getId() + "\" class=\"control\">" +
+                            "<div style=\"display:flex;\"" + "\" class=\"control\">" +
                             "<div style=\"margin-right: 10px\">" + question.getLowLabel() + "</div>" +
-                            getAnswerLabels(answerOption.getId()) +
+                            getScaleValues(answerOption.getId()) +
                             "<div style=\"margin-left: 10px\">" + question.getHighLabel() + "</div>" +
                             "</div>" +
                             "</div>";
@@ -91,14 +92,16 @@ public class GetSurveyController implements HttpController {
         return response;
     }
 
-    private String getAnswerLabels(long answerOptionId) {
+    private String getScaleValues(long answerOptionId) {
         String response = "";
 
-        for(int i = 1; i <= 5; i++) {
+        for(int value = 1; value <= 5; value++) {
             response +=
                     "<label class=\"radio\">" +
-                            "<input type=\"radio\" name=\"answer-" + answerOptionId + "\">" + i + "</input>" +
-                            "</label>";
+                        "<input type=\"radio\" name=\"answerOption_" + answerOptionId + "\" value=\"" + value + "\">" +
+                            value +
+                        "</input>" +
+                    "</label>";
         }
 
         return response;

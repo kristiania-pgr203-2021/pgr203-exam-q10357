@@ -17,15 +17,14 @@ public class UserAnswerDao extends AbstractDao<UserAnswer> {
 
     public void save(UserAnswer answer) throws SQLException {
         long id = save(answer,
-                "insert into userAnswer (question_id, answerOption_id, sessionUser_id, value) values (?,?,?,?)");
+                "insert into userAnswer (answerOption_id, sessionUser_id, value) values (?,?,?)");
     }
 
     @Override
     protected void prepareStatement(UserAnswer answer, PreparedStatement statement) throws SQLException {
-        statement.setLong(1, answer.getQuestionId());
-        statement.setLong(2, answer.getAnswerOptionId());
-        statement.setLong(3, answer.getSessionUserId());
-        statement.setInt(4, answer.getValue());
+        statement.setLong(1, answer.getAnswerOptionId());
+        statement.setLong(2, answer.getSessionUserId());
+        statement.setInt(3, answer.getValue());
     }
 
     public List<UserAnswer> listAll(Long questionId, Long userId) throws SQLException {
@@ -48,7 +47,6 @@ public class UserAnswerDao extends AbstractDao<UserAnswer> {
     @Override
     protected UserAnswer mapFromResultSet(ResultSet rs) throws SQLException {
         UserAnswer answer = new UserAnswer();
-        answer.setQuestionId(rs.getLong("question_id"));
         answer.setSessionUserId(rs.getLong("sessionUser_id"));
         answer.setValue(rs.getInt("value"));
 

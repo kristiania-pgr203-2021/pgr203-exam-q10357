@@ -1,6 +1,5 @@
 package no.kristiania.http.controllers;
 
-import no.kristiania.database.Question;
 import no.kristiania.database.Survey;
 import no.kristiania.database.daos.SurveyDao;
 import no.kristiania.http.messages.HttpRequestMessage;

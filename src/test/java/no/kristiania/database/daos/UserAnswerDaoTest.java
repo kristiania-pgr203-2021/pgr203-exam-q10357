@@ -55,7 +55,6 @@ public class UserAnswerDaoTest {
         for (AnswerOption answerOption : answerOptions) {
             UserAnswer answer = new UserAnswer();
 
-            answer.setQuestionId(question.getId());
             answer.setAnswerOptionId(answerOption.getId());
             answer.setSessionUserId(user.getId());
             answer.setValue(answerValue++);
@@ -74,11 +73,6 @@ public class UserAnswerDaoTest {
         assertThat(userAnswers)
                 .extracting(UserAnswer::getValue)
                 .contains(1, 2, 3, 4);
-
-        // assert all answers are connected to one question
-        assertThat(userAnswers)
-                .extracting(UserAnswer::getQuestionId)
-                .allMatch(id -> Objects.equals(id, question.getId()));
 
         // assert all answers are connected to one user
         assertThat(userAnswers)

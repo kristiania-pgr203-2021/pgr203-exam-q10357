@@ -3,9 +3,6 @@ package no.kristiania.database;
 public class UserAnswer {
     private Long id;
 
-    private Long questionId;
-    private Question question;
-
     private Long answerOptionId;
     private AnswerOption answerOption;
 
@@ -22,22 +19,6 @@ public class UserAnswer {
         id = id;
     }
 
-    public Long getQuestionId() {
-        return questionId;
-    }
-
-    public void setQuestionId(Long questionId) {
-        this.questionId = questionId;
-    }
-
-    public Question getQuestion() {
-        return question;
-    }
-
-    public void setQuestion(Question question) {
-        this.question = question;
-        setQuestionId(question.getId());
-    }
 
     public Long getAnswerOptionId() {
         return answerOptionId;
@@ -84,8 +65,7 @@ public class UserAnswer {
     @Override
     public String toString() {
         return "UserAnswer{" +
-                "questionId=" + questionId +
-                ", answerOptionId=" + answerOptionId +
+                "answerOptionId=" + answerOptionId +
                 ", sessionUserId=" + sessionUserId +
                 ", Value=" + Value +
                 '}';

@@ -103,7 +103,6 @@ public class TestData {
 
     public static UserAnswer exampleUserAnswer(Question q, AnswerOption ao, SessionUser user){
         UserAnswer answer = new UserAnswer();
-        answer.setQuestionId(q.getId());
         answer.setAnswerOptionId(ao.getId());
         answer.setSessionUserId(user.getId());
         answer.setValue(new Random().nextInt(11));
