@@ -31,6 +31,6 @@ public class SessionUserController implements HttpController{
             e.printStackTrace();
         }
 
-        return new HttpResponseMessage(303, "/index.html", sessionUser.getId());
+        return new HttpResponseMessage(303, "/surveys.html", sessionUser.getId());
     }
 }
