@@ -30,6 +30,7 @@ Eksempel steg:
 12. Det skal være mulig å se alle svar for alle brukere under "See answers".
 13. Det blir listet alle Surveys, og her kan du trykke inn for å se hva anonyme brukere har svart. Disse listest nedover og er delt i kategori og man ser skala som hver bruker har svart på.
 
+
 Database diagram:
 ![database_diagram](./database_diagram.svg)
 
@@ -37,7 +38,7 @@ Database diagram:
 
 ## Vedlegg: Sjekkliste for innlevering
 
-* [ ] Dere har lest eksamensteksten
+* [x] Dere har lest eksamensteksten
 * [ ] Dere har lastet opp en ZIP-fil med navn basert på navnet på deres Github repository
 * [x] Koden er sjekket inn på github.com/pgr203-2021-repository
 * [x] Dere har committed kode med begge prosjektdeltagernes GitHub konto (alternativt: README beskriver arbeidsform)
