@@ -1,6 +1,7 @@
 package no.kristiania.HttpTest;
 
 import no.kristiania.TestData;
+import no.kristiania.database.AnswerOption;
 import no.kristiania.database.Question;
 import no.kristiania.database.Survey;
 import no.kristiania.database.daos.*;
@@ -14,6 +15,8 @@ import javax.sql.DataSource;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -141,11 +144,10 @@ public class ServerTest {
 
     @Test
     void shouldReturn200GetSurveys() throws IOException {
-        HttpPostClient client = new HttpPostClient(
+        HttpClient client = new HttpClient(
                 "localhost",
                 server.getActualPort(),
-                "/api/surveys",
-                ""
+                "/api/surveys"
         );
 
         assertEquals(200, client.getResponseCode());
@@ -154,13 +156,62 @@ public class ServerTest {
     @Test
     void shouldReturn200ForSurveyResults() throws IOException, SQLException {
         Survey survey = surveyDao.listAll().stream().findFirst().get();
-        HttpPostClient client = new HttpPostClient(
+        HttpClient client = new HttpClient(
                 "localhost",
                 server.getActualPort(),
-                "/api/surveyResults?id=" + survey.getId(),
-                ""
+                "/api/surveyResults?id=" + survey.getId()
         );
 
         assertEquals(200, client.getResponseCode());
+    }
+
+    @Test
+    void shouldReturn400ForAnswerSurveyWithNoId() throws IOException, SQLException {
+        HttpPostClient client = new HttpPostClient(
+                "localhost",
+                server.getActualPort(),
+                "/api/answerSurvey",
+                "noId=-1"
+        );
+
+        assertEquals(400, client.getResponseCode());
+        assertEquals("The request must include the query surveyId", client.responseMessage.messageBody);
+    }
+
+    @Test
+    void shouldReturn400ForNotAllOptionAnswered() throws IOException, SQLException {
+        Survey survey = surveyDao.listAll().stream().findFirst().get();
+
+        HttpPostClient client = new HttpPostClient(
+                "localhost",
+                server.getActualPort(),
+                "/api/answerSurvey",
+                "surveyId=" + survey.getId()
+        );
+
+        assertEquals(400, client.getResponseCode());
+        assertEquals("The user must answer all questions and options", client.responseMessage.messageBody);
+    }
+
+    @Test
+    void shouldReturn200ForAnswerSurvey() throws IOException, SQLException {
+        Survey survey = surveyDao.listAll().stream().findFirst().get();
+        List<AnswerOption> answerOptions = answerOptionDao.listAllBySurveyId(survey.getId());
+        String requestBody = "surveyId=" + survey.getId();
+        int minScaleValue = 1;
+        int maxScaleValue = 5;
+        for (AnswerOption answerOption: answerOptions) {
+            requestBody += "&answerOption_" + answerOption.getId().toString() + "=" +
+                    ThreadLocalRandom.current().nextInt(minScaleValue, maxScaleValue);
+        }
+
+        HttpPostClient client = new HttpPostClient(
+                "localhost",
+                server.getActualPort(),
+                "/api/answerSurvey",
+                requestBody
+        );
+
+        assertEquals(303, client.getResponseCode());
     }
 }
