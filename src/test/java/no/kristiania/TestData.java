@@ -75,7 +75,6 @@ public class TestData {
             for(AnswerOption ao: answerOptionDao.listAll()){
                 for(int i = 0; i < generateRandomNumber(low, max); i++){
                     UserAnswer userAnswer = exampleUserAnswer(answerOptionDao, sessionUserDao);
-                    sessionUserDao.retrieve(generateRandomNumber(low,sessionUserDao.listAll().size()));
                     userAnswerDao.save(userAnswer);
                 }
             }
