@@ -1,5 +1,5 @@
 # PGR203 Avansert Java eksamen
-
+[![YourActionName Actions passing](https://github.com/kristiania-pgr203-2021/pgr203-exam-q10357/workflows/JDBC/badge.svg)](https://github.com/kristiania-pgr203-2021/pgr203-exam-q10357/actions)
 
 ## Beskriv hvordan programmet skal testes:
 
