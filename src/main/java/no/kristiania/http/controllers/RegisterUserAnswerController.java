@@ -42,6 +42,17 @@ public class RegisterUserAnswerController implements HttpController {
         System.out.println(cookieName);
 
         long sessionUserId = Long.valueOf(cookieName);
+        SessionUser user = null;
+
+        try {
+            user = sessionUserDao.retrieve(sessionUserId);
+        } catch (SQLException e) {
+            try {
+                user = createUser();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
 
 
         if (!request.queries.containsKey("surveyId")) {
@@ -56,7 +67,6 @@ public class RegisterUserAnswerController implements HttpController {
                 return new HttpResponseMessage(400, "The user must answer all questions and options");
             }
 
-            SessionUser user = createUser();
             SaveUserAnswers(user, answerOptions, request.queries);
         } catch (SQLException e) {
             e.printStackTrace();
