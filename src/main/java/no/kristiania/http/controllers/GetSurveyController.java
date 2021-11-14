@@ -93,30 +93,48 @@ public class GetSurveyController implements HttpController {
     private String getAnswerOptions(Question question, String target) throws SQLException {
         String response = "";
 
-        for (AnswerOption answerOption: question.getAnswerOptions()) {
-            if(target.equals("/api/surveys")){
-                response +=
-                        "<div style=\"margin-bottom:20px;\">" +
-                                "<h4 class= \"subtitle is-5\" style=\"margin-bottom: 5px\">" + answerOption.getText() + "</h4>" +
-                                "<div style=\"display:flex;\"" + "\" class=\"control\">" +
-                                "<div style=\"margin-right: 10px\">" + question.getLowLabel() + "</div>" +
-                                getScaleValues(answerOption.getId()) +
-                                "<div style=\"margin-left: 10px\">" + question.getHighLabel() + "</div>" +
-                                "</div>" +
-                                "</div>";
-            }else if(target.equals("/api/surveyResults")){
-                response +=
-                        "<div style=\"margin-bottom:20px;\">" +
-                                "<div style=\"margin-right: 10px\">" + "<h4 class = \"subtitle is-5\" style=\"margin-bottom: 5px\">Labels:</h4> " +
-                                "<p>Low: " +  question.getLowLabel() + " / High: " + question.getHighLabel() + "</p></div><br>" +
-                                "<h4 class= \"subtitle is-5\" style=\"margin-bottom: 5px\">" + answerOption.getText() + "</h4>" +
-                                "<div" + "\" class=\"control\">" +
-                                "<ul>" + getListOfAnswers(answerOption)+ "</ul>" +
-                                "</div>" +
-                        "</div>";
-
-            }
+        if(target.equals("/api/surveys")){
+            response = listAnswerOptions(question);
+        }else if(target.equals("/api/surveyResults")){
+            response = listQuestionAnswers(question);
         }
+
+        return response;
+    }
+
+    private String listAnswerOptions(Question question) {
+        String response = "";
+
+        for (AnswerOption answerOption: question.getAnswerOptions()) {
+            response +=
+                "<div style=\"margin-bottom:20px;\">" +
+                    "<h4 class= \"subtitle is-5\" style=\"margin-bottom: 5px\">" + answerOption.getText() + "</h4>" +
+                    "<div style=\"display:flex;\"" + "\" class=\"control\">" +
+                    "<div style=\"margin-right: 10px\">" + question.getLowLabel() + "</div>" +
+                    getScaleValues(answerOption.getId()) +
+                    "<div style=\"margin-left: 10px\">" + question.getHighLabel() + "</div>" +
+                    "</div>" +
+                "</div>";
+        }
+
+        return response;
+    }
+
+    private String listQuestionAnswers(Question question) throws SQLException {
+        String response =
+            "<div style=\"margin-right: 10px\">" + "<h4 class = \"subtitle is-5\" style=\"margin-bottom: 5px\">Labels:</h4> " +
+            "<p>Low: " +  question.getLowLabel() + " / High: " + question.getHighLabel() + "</p></div><br>";
+
+        for (AnswerOption answerOption: question.getAnswerOptions()) {
+            response +=
+                "<div style=\"margin-bottom:20px;\">" +
+                    "<h4 class= \"subtitle is-5\" style=\"margin-bottom: 5px\">" + answerOption.getText() + "</h4>" +
+                    "<div" + "\" class=\"control\">" +
+                    "<ul>" + getListOfAnswers(answerOption)+ "</ul>" +
+                    "</div>" +
+                "</div>";
+        }
+
         return response;
     }
 
