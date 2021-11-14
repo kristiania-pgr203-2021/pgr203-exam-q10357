@@ -19,8 +19,8 @@ public class SessionUserController implements HttpController{
     public HttpResponseMessage handle(HttpRequestMessage request) {
         String responseTxt = "";
         Map<String, String> queries = QueryHandler.handleQueries(request.queries);
-        if(!queries.containsKey("name")){
-            return new HttpResponseMessage(400, "Queries must include name");
+        if(!queries.containsKey("name") || queries.get("name").length() < 1 || queries.get("name").equals("Unknown")){
+            return new HttpResponseMessage(400, "Name must be submitted, name must not equal 'Unknown'");
         }
 
         SessionUser sessionUser = new SessionUser();

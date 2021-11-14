@@ -32,21 +32,20 @@ public class RegisterUserAnswerController implements HttpController {
     public HttpResponseMessage handle(HttpRequestMessage request) {
         System.out.println(request.queries);
         String responseText = "";
-
-        //here we handle the request headers to retrieve the cookie information neede
-        //To connect sessionUser to UserAnswer
-        String cookieInfo = request.getHeaders().get("Cookie");
-        cookieInfo = cookieInfo.substring(cookieInfo.indexOf("cookieName="));
-
-        String cookieName = cookieInfo.substring(cookieInfo.indexOf("=") + 1);
-        System.out.println(cookieName);
-
-        long sessionUserId = Long.valueOf(cookieName);
         SessionUser user = null;
 
-        try {
+        /*Here we handle the request headers to retrieve the cookie information neede
+        To connect sessionUser to UserAnswer
+        We surrond in try/catch for test purposes, and also in case cookieName is not set
+        If cookieName is not set, we will create a user, with name "*/
+        try{
+            String cookieInfo = request.getHeaders().get("Cookie");
+            cookieInfo = cookieInfo.substring(cookieInfo.indexOf("cookieName="));
+
+            String cookieName = cookieInfo.substring(cookieInfo.indexOf("=") + 1);
+            long sessionUserId = Long.valueOf(cookieName);
             user = sessionUserDao.retrieve(sessionUserId);
-        } catch (SQLException e) {
+        }catch(Exception e){
             try {
                 user = createUser();
             } catch (SQLException ex) {
@@ -87,7 +86,7 @@ public class RegisterUserAnswerController implements HttpController {
 
     private SessionUser createUser() throws SQLException {
         SessionUser user = new SessionUser();
-        user.setCookieId("notImplemented");
+        user.setCookieId("Unknown");
         sessionUserDao.save(user);
         return user;
     }

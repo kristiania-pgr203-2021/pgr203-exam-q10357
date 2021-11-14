@@ -1,15 +1,7 @@
 package no.kristiania.http.messages;
 
-import no.kristiania.database.SessionUser;
-import no.kristiania.database.daos.SessionUserDao;
-import no.kristiania.http.Cookie;
-
-import javax.sql.DataSource;
 import java.io.IOException;
-import java.net.Socket;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class HttpResponseMessage extends HttpMessage {
@@ -76,7 +68,11 @@ public class HttpResponseMessage extends HttpMessage {
         return responseHeaders;
     }
 
+    public Map<String, String> getHeaders(){
+        return headers;
+    }
     public int getResponseCode() {
         return responseCode;
     }
+
 }

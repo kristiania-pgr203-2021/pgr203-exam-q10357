@@ -9,7 +9,9 @@ import no.kristiania.http.HttpClient;
 import no.kristiania.http.HttpPostClient;
 import no.kristiania.http.HttpServer;
 import no.kristiania.http.controllers.*;
+import no.kristiania.http.messages.HttpResponseMessage;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import javax.sql.DataSource;
 import java.io.IOException;
@@ -51,6 +53,7 @@ public class ServerTest {
         server.addController("/api/answerSurvey", new RegisterUserAnswerController(answerOptionDao, sessionUserDao, userAnswerDao, questionDao));
         server.addController("/api/surveyResults", new GetSurveyController(surveyDao, questionDao, answerOptionDao, userAnswerDao));
         server.addController("/api/newSessionUser", new SessionUserController(sessionUserDao));
+        server.addController("/api/newSessionUser", new SessionUserController(sessionUserDao));
 
         server.start();
     }
@@ -78,6 +81,9 @@ public class ServerTest {
     void addSurveyShouldReturn303() throws IOException {
         server.addController("/api/newSurvey", new AddSurveyController(surveyDao));
         Survey survey = TestData.exampleSurvey();
+
+        HttpResponseMessage httpResponseMessage = new HttpResponseMessage(303, "/index.html", 1l);
+
 
         HttpPostClient client = new HttpPostClient(
                 "localhost",
@@ -218,6 +224,7 @@ public class ServerTest {
             requestBody += "&answerOption_" + answerOption.getId().toString() + "=" +
                     ThreadLocalRandom.current().nextInt(minScaleValue, maxScaleValue);
         }
+
 
         HttpPostClient client = new HttpPostClient(
                 "localhost",

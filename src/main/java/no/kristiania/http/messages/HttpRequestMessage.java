@@ -53,4 +53,8 @@ public class HttpRequestMessage extends HttpMessage {
     public Map<String, String> getHeaders(){
         return this.headers;
     }
+
+    public void setHeaders(String headerValue){
+        this.headers.put("0", "0");
+    }
 }

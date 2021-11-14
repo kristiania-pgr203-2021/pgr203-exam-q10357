@@ -1,7 +1,6 @@
 package no.kristiania.http.messages;
 
 import no.kristiania.database.SessionUser;
-import no.kristiania.http.Cookie;
 
 import java.io.IOException;
 import java.io.InputStream;
