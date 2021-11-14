@@ -13,7 +13,8 @@ Deretter kan man kjøre pogrammet med kommandoen
 java -jar ./target/Eksamen-1.0-SNAPSHOT.jar
 ```
 Programmet kan opprette spørsmål og lagrer disse i databasen. Det er mulig å legge til spm med tittel/kategori som passer til tema. Så kan man legge til svaralternativer, ved å velge riktig spm. 
-Det er også mulig å endre både spm og tittel/katergoi som er valgt.
+Det er også mulig å endre både spm og tittel/katergoi som er valgt. Bruker kan ta surveys ved å sende inn navn. Navnet blir lagret som cookie. 
+Det er mulig å liste opp alle svarene som brukerne har svart på. 
 
 Eksempel steg:
 1. Trykk på "Make Survey" og "New survey"
@@ -33,6 +34,18 @@ Eksempel steg:
 15. Det skal være mulig å se alle svar for alle brukere under "See answers".
 16. Det blir listet alle Surveys, og her kan du trykke inn for å se hva anonyme brukere har svart. Disse listest nedover og er delt i kategori og man ser skala som hver bruker har svart på.
 
+Ekstra:
+* Bruker registrere navn, etternavn og epost og lagres cookie (Vi ønsket )
+* Det er mulig å legge til flere spm, så det blir en stor spørreundersøkelse, med mange spm og kategorier
+* Lett leselig løsning, organisert data
+* Har laget controllers
+* Splittet httpMessage
+* Server skal returnere riktig feilmelding, 500 hvis noe har gått galt, 404 - ikke funnet, og prøvd å redirecte siden med 303.
+
+Prøvd:
+* Har prøvd på favicon.ico
+
+
 Database diagram:
 ![database_diagram](./database_diagram.svg)
 
@@ -47,8 +60,8 @@ Database diagram:
 
 ### README.md
 
-* [ ] `README.md` inneholder en korrekt link til Github Actions
-* [ ] `README.md` beskriver prosjektets funksjonalitet, hvordan man bygger det og hvordan man kjører det
+* [x] `README.md` inneholder en korrekt link til Github Actions
+* [x] `README.md` beskriver prosjektets funksjonalitet, hvordan man bygger det og hvordan man kjører det
 * [ ] `README.md` beskriver eventuell ekstra leveranse utover minimum
 * [x] `README.md` inneholder et diagram som viser datamodellen
 
