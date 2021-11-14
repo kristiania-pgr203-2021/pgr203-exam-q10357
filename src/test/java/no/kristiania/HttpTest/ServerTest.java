@@ -35,7 +35,6 @@ public class ServerTest {
         answerOptionDao = TestData.fillOptionTable(dataSource, questionDao);
         userAnswerDao = TestData.fillUserAnswerTable(dataSource, answerOptionDao, sessionUserDao);
 
-
         //Adding controllers before all tests run
         server = new HttpServer(0, dataSource);
         server.setRoot(Paths.get("src/main/resources"));
@@ -46,6 +45,8 @@ public class ServerTest {
         server.addController("/api/newSurvey", new AddSurveyController(surveyDao));
         server.addController("/api/surveyOptions", new ListSurveyController(surveyDao));
         server.addController("/api/surveys", new GetSurveyController(surveyDao, questionDao, answerOptionDao, userAnswerDao));
+        server.addController("/api/answerSurvey", new RegisterUserAnswerController(answerOptionDao, sessionUserDao, userAnswerDao, questionDao));
+        server.addController("/api/surveyResults", new GetSurveyController(surveyDao, questionDao, answerOptionDao, userAnswerDao));
 
         server.start();
     }
@@ -136,5 +137,30 @@ public class ServerTest {
         );
 
         assertEquals(400, client.getResponseCode());
+    }
+
+    @Test
+    void shouldReturn200GetSurveys() throws IOException {
+        HttpPostClient client = new HttpPostClient(
+                "localhost",
+                server.getActualPort(),
+                "/api/surveys",
+                ""
+        );
+
+        assertEquals(200, client.getResponseCode());
+    }
+
+    @Test
+    void shouldReturn200ForSurveyResults() throws IOException, SQLException {
+        Survey survey = surveyDao.listAll().stream().findFirst().get();
+        HttpPostClient client = new HttpPostClient(
+                "localhost",
+                server.getActualPort(),
+                "/api/surveyResults?id=" + survey.getId(),
+                ""
+        );
+
+        assertEquals(200, client.getResponseCode());
     }
 }
