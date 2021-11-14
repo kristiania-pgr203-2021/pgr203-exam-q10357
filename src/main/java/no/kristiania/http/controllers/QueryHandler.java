@@ -34,4 +34,12 @@ public class QueryHandler {
         }
         return true;
     }
+
+    public static Integer tryParse(String string) {
+        try {
+            return Integer.parseInt(string);
+        }catch (NumberFormatException ex){
+            return null;
+        }
+    }
 }

@@ -18,13 +18,18 @@ public class SessionUserDao extends AbstractDao<SessionUser> {
         user.setId(id);
     }
 
+    public SessionUser retrieve(long id) throws SQLException {
+        return retrieve(id, "select * from sessionUser where id = ?");
+    }
+
+    public List<SessionUser> listAll() throws SQLException {
+        return listAll("select * from sessionUser");
+    }
+
+
     @Override
     protected void prepareStatement(SessionUser user, PreparedStatement statement) throws SQLException {
         statement.setString(1, user.getCookieId());
-    }
-
-    public SessionUser retrieve(long id) throws SQLException {
-        return retrieve(id, "select * from sessionUser where id = ?");
     }
 
     @Override

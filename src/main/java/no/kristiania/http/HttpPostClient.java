@@ -31,7 +31,7 @@ public class HttpPostClient {
 
         responseMessage = new HttpRequestMessage(socket);
         String[] startLine = responseMessage.getStartLine();
-        responseCode = Integer.valueOf(startLine[1]);
+        this.responseCode = Integer.valueOf(startLine[1]);
     }
 
 

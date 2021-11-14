@@ -132,6 +132,7 @@ public class HttpServer {
 
     private void connectController(Socket clientSocket) throws IOException {
         String requestTarget = requestMessage.getRequestTarget();
+
         if(requestTarget.contains("?")){
             requestTarget = requestTarget.substring(0, requestTarget.indexOf("?"));
         }
@@ -139,7 +140,6 @@ public class HttpServer {
         if(controllers.containsKey(requestTarget)){
             HttpResponseMessage response = controllers.get(requestTarget).handle(requestMessage);
             responseCode = response.getResponseCode();
-
             writeResponse(clientSocket, response);
         }else{
             responseCode = 500;

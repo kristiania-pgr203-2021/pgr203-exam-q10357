@@ -94,5 +94,4 @@ public abstract class AbstractDao<T> {
     protected abstract void prepareStatement(T element, PreparedStatement statement) throws SQLException;
 
     protected abstract T mapFromResultSet(ResultSet rs) throws SQLException;
-
 }

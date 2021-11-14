@@ -5,7 +5,7 @@ import no.kristiania.http.messages.HttpRequestMessage;
 import java.io.IOException;
 import java.net.Socket;
 
-
+//This class is a helper for making tests with GET method
 public class HttpClient {
 
     private final String host;

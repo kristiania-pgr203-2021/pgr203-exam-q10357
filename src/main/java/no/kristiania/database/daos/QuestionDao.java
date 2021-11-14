@@ -25,13 +25,13 @@ public class QuestionDao extends AbstractDao<Question>{
         question.setId(id);
     }
 
-    public void update(Question question, String... updates) throws SQLException {
+    public void update(Question question) throws SQLException {
         isUpdate = true;
         update(question, "update question " +
                 "set title  = ?, description = ? " +
                  "where id = " + question.getId());
         //When editing a question, all associated answers and options will be deleted to ensure integrity of application
-        delete("delete from useranswer where question_id =" + question.getId());
+        delete("delete from useranswer where answeroption_id in (select id from answeroption where question_id ="+ question.getId() + ")");
         delete("delete from answeroption where question_id =" + question.getId());
 
     }
@@ -53,6 +53,22 @@ public class QuestionDao extends AbstractDao<Question>{
         statement.setString(5, question.getHighLabel());
     }
 
+    public List<Question> listAll() throws SQLException {
+        return listAll("select * from question");
+    }
+
+    public List<Question> listAll(Survey survey) throws SQLException {
+        return listAll("select * from question where survey_id = ?",
+                statement -> {
+            try {
+                statement.setLong(1, survey.getId());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return null;
+        });
+    }
+
     protected void prepareStatementForUpdate(Question question, PreparedStatement statement) throws SQLException {
         statement.setString(1, question.getTitle());
         statement.setString(2, question.getDescription());
@@ -70,14 +86,5 @@ public class QuestionDao extends AbstractDao<Question>{
         question.setHighLabel(rs.getString("maxAnswerLabel"));
 
         return question;
-    }
-
-    public List<Question> listAll() throws SQLException {
-        return listAll("select * from question");
-    }
-
-    public List<Question> listAll(Survey survey) throws SQLException {
-        if(survey.getId() != null && survey.getId() instanceof  Long);
-        return listAll("select * from question where survey_id = " + survey.getId());
     }
 }

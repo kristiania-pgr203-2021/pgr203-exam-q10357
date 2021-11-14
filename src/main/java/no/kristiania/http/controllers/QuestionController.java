@@ -23,7 +23,6 @@ public class QuestionController implements  HttpController{
     @Override
     public HttpResponseMessage handle(HttpRequestMessage request) {
         Map<String, String> queries =QueryHandler.handleQueries(request.queries);
-        System.out.println(queries);
 
         String apiTarget = request.getRequestTarget().split("/")[2];
 
@@ -41,6 +40,9 @@ public class QuestionController implements  HttpController{
         switch(apiTarget){
             case "newQuestion":
                 question.setSurveyId(Long.parseLong(queries.get("survey")));
+                if(!validateLabelInstances(queries)){
+                    return new HttpResponseMessage(400, "Labels must be of same type. Ex. Integer or String");
+                };
                 question.setHighLabel(queries.get("high_label"));
                 question.setLowLabel(queries.get("low_label"));
                 addQuestionToDatabase(question);
@@ -53,6 +55,16 @@ public class QuestionController implements  HttpController{
         }
 
         return new HttpResponseMessage(303, location);
+    }
+
+    private boolean  validateLabelInstances(Map<String, String> queries) {
+        Integer low = QueryHandler.tryParse(queries.get("low_label"));
+        Integer high = QueryHandler.tryParse(queries.get("high_label"));
+
+        if(low == null && high == null || high != null && low != null){
+            return true;
+        }
+        return false;
     }
 
 

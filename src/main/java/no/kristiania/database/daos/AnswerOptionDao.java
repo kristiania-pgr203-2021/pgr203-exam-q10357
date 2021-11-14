@@ -18,23 +18,12 @@ public class AnswerOptionDao extends AbstractDao<AnswerOption>{
         answerOption.setId(id);
     }
 
-    @Override
-    protected void prepareStatement(AnswerOption answerOption, PreparedStatement statement) throws SQLException {
-        statement.setLong(1, answerOption.getQuestionId());
-        statement.setString(2, answerOption.getText());
-    }
-
     public AnswerOption retrieve(long id) throws SQLException {
         return retrieve(id, "select * from answerOption where id = ?");
     }
 
-    @Override
-    protected AnswerOption mapFromResultSet(ResultSet rs) throws SQLException {
-        AnswerOption answerOption = new AnswerOption();
-        answerOption.setId(rs.getLong("id"));
-        answerOption.setQuestionId(rs.getLong("question_id"));
-        answerOption.setText(rs.getString("text"));
-        return answerOption;
+    public List<AnswerOption> listAll() throws SQLException {
+        return listAll("select * from answeroption");
     }
 
     public List<AnswerOption> listAll(Long questionId) throws SQLException {
@@ -64,5 +53,20 @@ public class AnswerOptionDao extends AbstractDao<AnswerOption>{
                     }
                     return null;
                 });
+    }
+
+    @Override
+    protected AnswerOption mapFromResultSet(ResultSet rs) throws SQLException {
+        AnswerOption answerOption = new AnswerOption();
+        answerOption.setId(rs.getLong("id"));
+        answerOption.setQuestionId(rs.getLong("question_id"));
+        answerOption.setText(rs.getString("text"));
+        return answerOption;
+    }
+
+    @Override
+    protected void prepareStatement(AnswerOption answerOption, PreparedStatement statement) throws SQLException {
+        statement.setLong(1, answerOption.getQuestionId());
+        statement.setString(2, answerOption.getText());
     }
 }

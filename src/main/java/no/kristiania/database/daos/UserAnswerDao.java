@@ -27,16 +27,36 @@ public class UserAnswerDao extends AbstractDao<UserAnswer> {
         statement.setInt(3, answer.getValue());
     }
 
-    public List<UserAnswer> listAll(Long questionId, Long userId) throws SQLException {
+    public List<UserAnswer> listAll() throws SQLException {
+        return(listAll("select * from useranswer"));
+    }
+
+
+    public List<UserAnswer> listAll(Long userId) throws SQLException {
         return listAll(
-            "select ua.question_id, answerOption_id, sessionUser_id, value, ao.text " +
+            "select answerOption_id, sessionUser_id, value, ao.text " +
                 "from userAnswer as ua " +
                 "inner join answerOption as ao on ua.answerOption_id = ao.id " +
-                "where ua.question_id = ? and sessionUser_id = ?",
+                "where sessionUser_id = ?",
                 statement -> {
                     try {
-                        statement.setLong(1, questionId);
-                        statement.setLong(2, userId);
+                        statement.setLong(1, userId);
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                    return null;
+                });
+    }
+
+    public List<UserAnswer> listAllAnswersToOption(Long optionID) throws SQLException {
+        return listAll(
+                "select answerOption_id, sessionUser_id, value, ao.text " +
+                        "from userAnswer as ua " +
+                        "inner join answerOption as ao on ua.answerOption_id = ao.id " +
+                        "where ao.id = ?",
+                statement -> {
+                    try {
+                        statement.setLong(1, optionID);
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
@@ -49,11 +69,7 @@ public class UserAnswerDao extends AbstractDao<UserAnswer> {
         UserAnswer answer = new UserAnswer();
         answer.setSessionUserId(rs.getLong("sessionUser_id"));
         answer.setValue(rs.getInt("value"));
-
-        AnswerOption answerOption = new AnswerOption();
-        answerOption.setId(rs.getLong("answerOption_id"));
-        answerOption.setText(rs.getString("text"));
-        answer.setAnswerOption(answerOption);
+        answer.setAnswerOptionId(rs.getLong("answeroption_id"));
 
         return answer;
     }
