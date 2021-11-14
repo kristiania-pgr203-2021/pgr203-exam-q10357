@@ -50,6 +50,7 @@ public class ServerTest {
         server.addController("/api/surveys", new GetSurveyController(surveyDao, questionDao, answerOptionDao, userAnswerDao));
         server.addController("/api/answerSurvey", new RegisterUserAnswerController(answerOptionDao, sessionUserDao, userAnswerDao, questionDao));
         server.addController("/api/surveyResults", new GetSurveyController(surveyDao, questionDao, answerOptionDao, userAnswerDao));
+        server.addController("/api/newSessionUser", new SessionUserController(sessionUserDao));
 
         server.start();
     }
@@ -223,6 +224,20 @@ public class ServerTest {
                 server.getActualPort(),
                 "/api/answerSurvey",
                 requestBody
+        );
+
+        assertEquals(303, client.getResponseCode());
+    }
+
+    @Test
+    void shouldReturn303ForNewSessionUser() throws IOException {
+        String newSessionsUserName = "test";
+
+        HttpPostClient client = new HttpPostClient(
+                "localhost",
+                server.getActualPort(),
+                "/api/newSessionUser",
+                "name=" + newSessionsUserName
         );
 
         assertEquals(303, client.getResponseCode());
