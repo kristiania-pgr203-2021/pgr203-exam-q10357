@@ -12,8 +12,8 @@ Deretter kan man kjøre pogrammet med kommandoen
 ```bash
 java -jar ./target/Eksamen-1.0-SNAPSHOT.jar
 ```
-
-Programmet kan opprette spørsmål og lagrer disse i databasen. Det er mulig å legge til spm med tittel/kategori som passer til tema. Så kan man legge til svaralternativer, ved å velge riktig spm.
+Programmet kan opprette spørsmål og lagrer disse i databasen. Det er mulig å legge til spm med tittel/kategori som passer til tema. Så kan man legge til svaralternativer, ved å velge riktig spm. 
+Det er også mulig å endre både spm og tittel/katergoi som er valgt.
 
 Eksempel steg:
 1. Trykk på "Make Survey" og "New survey"
@@ -25,11 +25,13 @@ Eksempel steg:
 7. Gå tilbake og legg til options.
 8. Du må velge riktig spm som du har lagret og legge til svaralternativer. Det kan gjøres flere ganger etterhverandre. Eks( Middag: Stekt and, Wok, Stekt ris, Dessert: Creme brulee, Pai, Is. Drikker: Cola, Vann, Pepsi)
 9. Alt skal være lagret, og det er mulig å endre på både spm og tittel/katergori
-10. Bruker kan ta "Take survey", her listes alle surveys, når det lages flere, og man kan legge til flere spm på samme måte, og disse vil da oppdateres under "Take surveys".
-11. Bruker velger skala verdi for forskjellige options og sender inn. Det skal ikke være mulig å hoppe over option, alle må besvares før sending.
-12. Det skal være mulig å se alle svar for alle brukere under "See answers".
-13. Det blir listet alle Surveys, og her kan du trykke inn for å se hva anonyme brukere har svart. Disse listest nedover og er delt i kategori og man ser skala som hver bruker har svart på.
-
+10. Bruker kan ta "Take survey".
+11. Skriv inn ditt navn, dette sendes til server og lagres i SessionUser tabellen.
+12. Serveren sette «Set-Cookie» headeren, alle requester vil etter dette ha en Cookie: i header. I vår løsning har vi valgt sessionUserId som cookieName, da vi kan lett bruke dette for å hente tilsvarende sessionUser.
+13. Her listes alle surveys, når det lages flere, og man kan legge til flere spm på samme måte, og disse vil da oppdateres under "Take surveys".
+14. Bruker velger skala verdi for forskjellige options og sender inn. Det skal ikke være mulig å hoppe over option, alle må besvares før sending.
+15. Det skal være mulig å se alle svar for alle brukere under "See answers".
+16. Det blir listet alle Surveys, og her kan du trykke inn for å se hva anonyme brukere har svart. Disse listest nedover og er delt i kategori og man ser skala som hver bruker har svart på.
 
 Database diagram:
 ![database_diagram](./database_diagram.svg)
