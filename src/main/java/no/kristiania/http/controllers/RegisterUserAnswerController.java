@@ -30,7 +30,20 @@ public class RegisterUserAnswerController implements HttpController {
 
     @Override
     public HttpResponseMessage handle(HttpRequestMessage request) {
+        System.out.println(request.queries);
         String responseText = "";
+
+        //here we handle the request headers to retrieve the cookie information neede
+        //To connect sessionUser to UserAnswer
+        String cookieInfo = request.getHeaders().get("Cookie");
+        cookieInfo = cookieInfo.substring(cookieInfo.indexOf("cookieName="));
+
+        String cookieName = cookieInfo.substring(cookieInfo.indexOf("=") + 1);
+        System.out.println(cookieName);
+
+        long sessionUserId = Long.valueOf(cookieName);
+
+
         if (!request.queries.containsKey("surveyId")) {
             return new HttpResponseMessage(400, "The request must include the query surveyId");
         }
@@ -59,7 +72,6 @@ public class RegisterUserAnswerController implements HttpController {
                 return false;
             }
         }
-
         return true;
     }
 

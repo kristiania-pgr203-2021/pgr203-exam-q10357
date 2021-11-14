@@ -31,6 +31,7 @@ public class Main {
         server.addController("/api/surveys", new GetSurveyController(sDao, qDao, aoDao, uaDao));
         server.addController("/api/surveyResults", new GetSurveyController(sDao, qDao, aoDao, uaDao));
         server.addController("/api/answerSurvey", new RegisterUserAnswerController(aoDao, suDao, uaDao, qDao));
+        server.addController("/api/newSessionUser", new SessionUserController(suDao));
 
         //Starting server
         server.start();

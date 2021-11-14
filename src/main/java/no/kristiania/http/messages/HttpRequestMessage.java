@@ -19,6 +19,7 @@ public class HttpRequestMessage extends HttpMessage {
         } else if (requestTarget.contains("?")) {
             setQueries(requestTarget.split("\\?")[1]);
         }
+
     }
 
     private void setQueries(String query) {
@@ -47,5 +48,9 @@ public class HttpRequestMessage extends HttpMessage {
         }
 
         return "";
+    }
+
+    public Map<String, String> getHeaders(){
+        return this.headers;
     }
 }

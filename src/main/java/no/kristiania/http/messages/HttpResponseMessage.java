@@ -1,8 +1,15 @@
 package no.kristiania.http.messages;
 
+import no.kristiania.database.SessionUser;
+import no.kristiania.database.daos.SessionUserDao;
+import no.kristiania.http.Cookie;
+
+import javax.sql.DataSource;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class HttpResponseMessage extends HttpMessage {
@@ -14,8 +21,15 @@ public class HttpResponseMessage extends HttpMessage {
         put(500, "Internal Server Error");
     }};
 
+    public HttpResponseMessage(int responseCode, String location, long cookieId){
+        this.responseCode = responseCode;
+        this.headers.put("Set-Cookie", "cookieName="+cookieId);
+        this.headers.put("Location", location);
+        System.out.println(getResponseHeaders());
+    }
 
     public HttpResponseMessage(int responseCode, String messageBody) {
+        System.out.println(responseCode);
         this.responseCode = responseCode;
         if(responseCode == 303){
             String location = messageBody;
@@ -28,6 +42,7 @@ public class HttpResponseMessage extends HttpMessage {
         this.headers.put("Connection", "close");
     }
 
+
     public HttpResponseMessage(int responseCode, String contentType, String messageBody) {
         this.responseCode = responseCode;
         this.headers.put("Content-Type", contentType);
@@ -35,6 +50,7 @@ public class HttpResponseMessage extends HttpMessage {
         this.headers.put("Connection", "close");
         this.messageBody = messageBody;
     }
+
 
     public String getResponseText() throws IOException {
         return "HTTP/1.1 " + responseCode + " " + getResponseCodeText(responseCode) + "\r\n" +

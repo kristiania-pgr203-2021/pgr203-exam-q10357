@@ -1,5 +1,8 @@
 package no.kristiania.http.messages;
 
+import no.kristiania.database.SessionUser;
+import no.kristiania.http.Cookie;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
@@ -14,6 +17,7 @@ public abstract class HttpMessage {
     protected final Map<String, String> headers = new HashMap<>();
 
     public String messageBody;
+    public SessionUser sessionUser;
 
     public HttpMessage() {
         startLine = null;

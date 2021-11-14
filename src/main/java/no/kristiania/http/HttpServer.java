@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.sql.DataSource;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.ServerSocket;
@@ -108,12 +109,14 @@ public class HttpServer {
 
     //Search directory, return false if file is not found/ rootDirectory = null
     private void searchDirectoryAndSetFileResponse() throws IOException {
-        String requestedFile = requestMessage.getRequestTarget().substring(1);
+        String requestedFile = requestMessage.getRequestTarget();
+        InputStream fileResource = getClass().getResourceAsStream(requestedFile);
 
-        InputStream resourceAsStream = getClass().getResourceAsStream(requestedFile);
+        if(fileResource != null){
+            ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+            fileResource.transferTo(buffer);
 
-        if(rootDirectory != null && Files.exists(rootDirectory.resolve(requestedFile))){
-            text = Files.readString((rootDirectory.resolve(requestedFile)));
+            text = buffer.toString();
             return;
         }
         responseCode = 404;
