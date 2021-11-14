@@ -1,11 +1,12 @@
 package no.kristiania.database;
 
 
-import no.kristiania.database.daos.QuestionDao;
 import org.flywaydb.core.Flyway;
 import org.postgresql.ds.PGSimpleDataSource;
 
 import javax.sql.DataSource;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -33,7 +34,8 @@ public abstract class Datasource {
     }
 
     public static Properties getDatabaseProperties() throws IOException {
-        InputStream dbConfigFile = QuestionDao.class.getClassLoader().getResourceAsStream("pgr203.properties");
+        File propertyFile = new File("pgr203.properties");
+        InputStream dbConfigFile = new FileInputStream(propertyFile);
         Properties dbProperties = new Properties();
 
         if (dbConfigFile != null) {

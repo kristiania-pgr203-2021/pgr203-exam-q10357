@@ -3,5 +3,5 @@
 target/
 /pgr203.properties
 /dependency-reduced-pom.xml
-/src/main/resources/pgr203.properties
-/src/main/resources/pgr203.properties
+/pgr203.properties
+

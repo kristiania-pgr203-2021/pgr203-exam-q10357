@@ -44,7 +44,11 @@ Ekstra:
 
 Prøvd:
 * Har prøvd på favicon.ico
+* Cookie:
+Vi har en svært simpel login side hvor bruker skriver brukers fornavn. Det hadde vært foretrukket å også ha et passord med en hashfunksjon. Da kunne vi ha retrieved sessionused ved å bruke e-post og passord.
 
+Cookie funksjonen ble implementert forholdsvis enkelt, på grunn av den gode HttpMessage klassen, og subklassene HttpResponseMessage og HttpRequestMessage. HttpResponseMessage gjorde det også enkelt å sende responsecode 303 See Other, med headeren Location: «link».
+Dette gjorde at vi klarte å implementere den ekstra funksjonaliteten om å sende brukeren tilbake til dit de var før.
 
 Database diagram:
 ![database_diagram](./database_diagram.svg)
@@ -62,15 +66,15 @@ Database diagram:
 
 * [x] `README.md` inneholder en korrekt link til Github Actions
 * [x] `README.md` beskriver prosjektets funksjonalitet, hvordan man bygger det og hvordan man kjører det
-* [ ] `README.md` beskriver eventuell ekstra leveranse utover minimum
+* [x] `README.md` beskriver eventuell ekstra leveranse utover minimum
 * [x] `README.md` inneholder et diagram som viser datamodellen
 
 ### Koden
 
-* [ ] `mvn package` bygger en executable jar-fil
+* [x] `mvn package` bygger en executable jar-fil
 * [x] Koden inneholder et godt sett med tester
-* [ ] `java -jar target/...jar` (etter `mvn package`) lar bruker legge til og liste ut data fra databasen via webgrensesnitt
-* [ ] Serveren leser HTML-filer fra JAR-filen slik at den ikke er avhengig av å kjøre i samme directory som kildekoden
+* [x] `java -jar target/...jar` (etter `mvn package`) lar bruker legge til og liste ut data fra databasen via webgrensesnitt
+* [x] Serveren leser HTML-filer fra JAR-filen slik at den ikke er avhengig av å kjøre i samme directory som kildekoden
 * [x] Programmet leser `dataSource.url`, `dataSource.username` og `dataSource.password` fra `pgr203.properties` for å connecte til databasen
 * [x] Programmet bruker Flywaydb for å sette opp databaseskjema
 * [x] Server skriver nyttige loggmeldinger, inkludert informasjon om hvilken URL den kjører på ved oppstart
