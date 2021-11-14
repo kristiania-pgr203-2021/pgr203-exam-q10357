@@ -87,7 +87,7 @@ public class RegisterUserAnswerController implements HttpController {
         }
     }
 
-    //This method is very flawed, but is used to make more sence of answers where labels are of integer, but not 1-5
+    //This method is very flawed, but is used to make more sense of answers where labels are of integer, but not 1-5
     private Integer checkLabels(AnswerOption answerOption, int answer) throws SQLException {
         Integer trueValue = null;
         System.out.println(answer);

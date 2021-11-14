@@ -110,11 +110,11 @@ public class GetSurveyController implements HttpController {
                                 "<div style=\"margin-right: 10px\">" + "<h4 class = \"subtitle is-5\" style=\"margin-bottom: 5px\">Labels:</h4> " +
                                 "<p>Low: " +  question.getLowLabel() + " / High: " + question.getHighLabel() + "</p></div><br>" +
                                 "<h4 class= \"subtitle is-5\" style=\"margin-bottom: 5px\">" + answerOption.getText() + "</h4>" +
-                                "<div style=\"display:flex;\"" + "\" class=\"control\">" +
-                                "<p>Answers associated: </p><br>" +
+                                "<div" + "\" class=\"control\">" +
+                                "<p>Answers associated:</p>" +
                                 "<ul>" + getListOfAnswers(answerOption)+ "</ul>" +
                                 "</div>" +
-                                "</div>";
+                        "</div>";
 
             }
         }
