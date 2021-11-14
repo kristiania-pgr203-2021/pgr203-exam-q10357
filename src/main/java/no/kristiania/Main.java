@@ -12,7 +12,7 @@ import java.nio.file.Paths;
 public class Main {
     public static void main(String[] args) throws IOException {
         DataSource dataSource = Datasource.createDataSource();
-        HttpServer server = new HttpServer( 2000, dataSource);
+        HttpServer server = new HttpServer( 8080, dataSource);
         System.out.println("http://localhost:" + server.getActualPort());
         QuestionDao qDao = new QuestionDao(dataSource);
         SurveyDao sDao = new SurveyDao(dataSource);
