@@ -194,7 +194,7 @@ public class ServerTest {
     }
 
     @Test
-    void shouldReturn200ForAnswerSurvey() throws IOException, SQLException {
+    void shouldReturn303ForAnswerSurvey() throws IOException, SQLException {
         Survey survey = surveyDao.listAll().stream().findFirst().get();
         List<AnswerOption> answerOptions = answerOptionDao.listAllBySurveyId(survey.getId());
         String requestBody = "surveyId=" + survey.getId();
