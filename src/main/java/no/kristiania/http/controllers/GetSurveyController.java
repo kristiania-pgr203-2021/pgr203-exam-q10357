@@ -111,7 +111,6 @@ public class GetSurveyController implements HttpController {
                                 "<p>Low: " +  question.getLowLabel() + " / High: " + question.getHighLabel() + "</p></div><br>" +
                                 "<h4 class= \"subtitle is-5\" style=\"margin-bottom: 5px\">" + answerOption.getText() + "</h4>" +
                                 "<div" + "\" class=\"control\">" +
-                                "<p>Answers associated:</p>" +
                                 "<ul>" + getListOfAnswers(answerOption)+ "</ul>" +
                                 "</div>" +
                         "</div>";
