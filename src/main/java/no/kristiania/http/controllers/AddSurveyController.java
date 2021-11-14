@@ -26,22 +26,23 @@ public class AddSurveyController implements HttpController {
             return new HttpResponseMessage(400, responseTxt);
         }
 
-        addSurveyToDatabase(queries);
+        try {
+            addSurveyToDatabase(queries);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new HttpResponseMessage(500,"error");
+        }
+
 
         return new HttpResponseMessage(303, "/newSurvey.html");
     }
 
-    private void addSurveyToDatabase(Map<String, String> queries) {
+    private void addSurveyToDatabase(Map<String, String> queries) throws SQLException {
         String surveyName = queries.get("name");
 
         Survey survey = new Survey();
         survey.setName(surveyName);
-
-        try {
-            surveyDao.save(survey);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        surveyDao.save(survey);
     }
 
     private boolean validateQueries(Map<String, String> queries) {

@@ -45,12 +45,22 @@ public class QuestionController implements  HttpController{
                 };
                 question.setHighLabel(queries.get("high_label"));
                 question.setLowLabel(queries.get("low_label"));
-                addQuestionToDatabase(question);
+                try {
+                    addQuestionToDatabase(question);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    return new HttpResponseMessage(500,"error");
+                }
                 break;
             case "updateQuestion":
                 System.out.println("In update");
                 question.setId(Long.parseLong(queries.get("questions")));
-                updateExistingQuestion(question);
+                try {
+                    updateExistingQuestion(question);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    return new HttpResponseMessage(500,"error");
+                }
                 break;
         }
 
@@ -68,22 +78,14 @@ public class QuestionController implements  HttpController{
     }
 
 
-    private void updateExistingQuestion(Question question) {
-        try {
-            questionDao.update(question);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    private void updateExistingQuestion(Question question) throws SQLException {
+        questionDao.update(question);
         System.out.println(question.getDescription());
         location = "/updateQuestion.html";
     }
 
-    private void addQuestionToDatabase(Question question) {
-        try {
-            questionDao.save(question);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    private void addQuestionToDatabase(Question question) throws SQLException {
+        questionDao.save(question);
         location = "/newQuestion.html";
     }
 

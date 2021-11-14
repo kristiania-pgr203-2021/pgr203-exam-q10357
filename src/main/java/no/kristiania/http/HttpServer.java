@@ -98,7 +98,16 @@ public class HttpServer {
         }
         else if (requestTarget.startsWith("/api")) {
             handleApiRequestTarget(clientSocket);
-        } else {
+        }
+        else if (requestTarget.contains("ico")){
+            writeResponse(clientSocket, new HttpResponseMessage(200, "image/x-icon","/favicon.ico"));
+            return;
+        }
+        else if(requestTarget.equals("/")) {
+            writeResponse(clientSocket, new HttpResponseMessage(303, "/index.html"));
+            return;
+        }
+        else {
             responseCode = 400;
             text = "Invalid request: " + requestTarget;
         }
@@ -120,7 +129,7 @@ public class HttpServer {
             return;
         }
         responseCode = 404;
-        text = String.format( "Html file not found %s", requestedFile);
+        text = String.format("Html file not found %s", requestedFile);
     }
 
 

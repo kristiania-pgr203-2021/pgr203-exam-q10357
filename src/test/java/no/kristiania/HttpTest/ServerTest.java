@@ -90,6 +90,19 @@ public class ServerTest {
     }
 
     @Test
+    void shouldBeAbleToPostWithEncoding() throws IOException, SQLException {
+        HttpPostClient client = new HttpPostClient(
+                "localhost",
+                server.getActualPort(),
+                "/api/newSurvey",
+                "name=%C3%A6%C3%B8%C3%A5");
+
+        assertEquals(303, client.getResponseCode());
+        assertThat(surveyDao.listAll())
+            .anySatisfy(p -> assertThat(p.getName()).isEqualTo("æøå"));
+    }
+
+    @Test
     void getQuestionInSurveyShouldReturn200() throws IOException, SQLException {
         Survey survey = surveyDao.retrieve(TestData.generateRandomNumber(1, 5));
 
@@ -98,7 +111,7 @@ public class ServerTest {
     }
 
     @Test
-    void shouldCrateNewQuestion() throws IOException, SQLException {
+    void shouldCreateNewQuestion() throws IOException, SQLException {
         HttpPostClient client = new HttpPostClient(
                 "localhost",
                 server.getActualPort(),

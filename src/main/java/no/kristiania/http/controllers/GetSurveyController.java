@@ -44,6 +44,7 @@ public class GetSurveyController implements HttpController {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            return new HttpResponseMessage(500,"error");
         }
 
         return new HttpResponseMessage(200, responseText);

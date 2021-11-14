@@ -26,23 +26,24 @@ public class AddOptionController implements HttpController {
             return new HttpResponseMessage(400, responseTxt);
         }
 
-        addOptionToDatabase(queries);
+        try {
+            addOptionToDatabase(queries);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new HttpResponseMessage(500,"error");
+        }
+
         return new HttpResponseMessage(303, "/addOption.html");
     }
 
-    private void addOptionToDatabase(Map<String, String> queries) {
+    private void addOptionToDatabase(Map<String, String> queries) throws SQLException {
         String optionText = queries.get("option");
         Long qId = Long.parseLong(queries.get("question"));
 
         AnswerOption ao = new AnswerOption();
         ao.setQuestionId(qId);
         ao.setText(optionText);
-
-        try {
-            answerOptionDao.save(ao);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        answerOptionDao.save(ao);
     }
 
     private boolean validateQueries(Map<String, String> queries) {
