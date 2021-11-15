@@ -104,7 +104,5 @@ public class AnswerOptionDaoTest {
         assertThat(options)
                 .extracting(AnswerOption::getQuestionId)
                 .containsAll(questions.stream().distinct().map(q -> q.getId()).collect(Collectors.toList()));
-
-
     }
 }
