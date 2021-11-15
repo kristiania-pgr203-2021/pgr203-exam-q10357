@@ -91,8 +91,6 @@ public class ServerTest {
                 "/api/newSurvey",
                 "name=" + survey.getName());
 
-        System.out.println();
-
         assertEquals(303, client.getResponseCode());
     }
 

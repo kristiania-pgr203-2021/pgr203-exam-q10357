@@ -170,7 +170,6 @@ public class HttpServer {
 
     public void setRoot(Path rootDirectory) {
         this.rootDirectory = rootDirectory;
-        //System.out.println(rootDirectory);
     }
 
     public void addController(String path, HttpController controller) {

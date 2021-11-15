@@ -17,11 +17,9 @@ public class HttpResponseMessage extends HttpMessage {
         this.responseCode = responseCode;
         this.headers.put("Set-Cookie", "cookieName="+cookieId);
         this.headers.put("Location", location);
-        System.out.println(getResponseHeaders());
     }
 
     public HttpResponseMessage(int responseCode, String messageBody) {
-        System.out.println(responseCode);
         this.responseCode = responseCode;
         if(responseCode == 303){
             String location = messageBody;

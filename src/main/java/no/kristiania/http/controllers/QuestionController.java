@@ -35,7 +35,6 @@ public class QuestionController implements  HttpController{
         Question question = new Question();
         question.setTitle(title);
         question.setDescription(description);
-        System.out.println(apiTarget);
 
         switch(apiTarget){
             case "newQuestion":
@@ -53,7 +52,6 @@ public class QuestionController implements  HttpController{
                 }
                 break;
             case "updateQuestion":
-                System.out.println("In update");
                 question.setId(Long.parseLong(queries.get("questions")));
                 try {
                     updateExistingQuestion(question);
@@ -80,7 +78,6 @@ public class QuestionController implements  HttpController{
 
     private void updateExistingQuestion(Question question) throws SQLException {
         questionDao.update(question);
-        System.out.println(question.getDescription());
         location = "/updateQuestion.html";
     }
 

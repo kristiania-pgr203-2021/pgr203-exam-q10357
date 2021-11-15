@@ -35,7 +35,7 @@ Eksempel steg:
 16. Det blir listet alle Surveys, og her kan du trykke inn for å se hva anonyme brukere har svart. Disse listest nedover og er delt i kategori og man ser skala som hver bruker har svart på.
 
 Ekstra:
-* Bruker registrere navn, etternavn og epost og lagres cookie (Vi ønsket )
+* Bruker registrere navn og lagres cookie
 * Det er mulig å legge til flere spm, så det blir en stor spørreundersøkelse, med mange spm og kategorier
 * Lett leselig løsning, organisert data
 * Har laget controllers

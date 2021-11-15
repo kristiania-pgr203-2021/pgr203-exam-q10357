@@ -36,10 +36,8 @@ public class GetSurveyController implements HttpController {
         try {
             if(request.queries.isEmpty()){
                 String htmlSite = getHtmlSite(target);
-                System.out.println("Empty queries");
                 responseText = getSurveys(htmlSite);
             } else {
-                System.out.println("Non empty queries");
                 responseText = getSurveyAndQuestions(Long.parseLong(request.queries.get("id")), target);
             }
         } catch (SQLException e) {
@@ -67,7 +65,6 @@ public class GetSurveyController implements HttpController {
                     "<a href=\"" + site +".html?id=" + s.getId() +"\">" + s.getName() + "</a>" +
                     "</li>";
         }
-        System.out.println(response);
 
         return response;
     }

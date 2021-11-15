@@ -30,7 +30,6 @@ public class RegisterUserAnswerController implements HttpController {
 
     @Override
     public HttpResponseMessage handle(HttpRequestMessage request) {
-        System.out.println(request.queries);
         String responseText = "";
         SessionUser user = null;
 
@@ -111,7 +110,6 @@ public class RegisterUserAnswerController implements HttpController {
     //This method is very flawed, but is used to make more sense of answers where labels are of integer, but not 1-5
     private Integer checkLabels(AnswerOption answerOption, int answer) throws SQLException {
         Integer trueValue = null;
-        System.out.println(answer);
         long questionId  = answerOption.getQuestionId();
         Question question = questionDao.retrieve(questionId);
 

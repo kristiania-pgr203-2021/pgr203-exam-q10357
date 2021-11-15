@@ -39,7 +39,6 @@ public abstract class AbstractDao<T> {
     }
 
     protected void update(T element, String sql) throws SQLException {
-        System.out.println(sql);
         try (Connection connection = dataSource.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(sql)){
                 prepareStatement(element, statement);
