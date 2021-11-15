@@ -2,9 +2,7 @@ package no.kristiania.database.daos;
 
 import no.kristiania.TestData;
 import no.kristiania.database.Question;
-import no.kristiania.database.SessionUser;
 import no.kristiania.database.Survey;
-import org.h2.engine.User;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -14,7 +12,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class QuestionDaoTest {
     private static final DataSource dataSource = TestData.testDataSource(QuestionDaoTest.class.getName());
@@ -27,7 +24,7 @@ public class QuestionDaoTest {
     private static List<Question> questions;
 
     //Variables for generating numbers
-    private int low = 1;
+    private final int low = 1;
 
     @BeforeAll
     public static void fillDataBase() throws SQLException {
@@ -55,7 +52,7 @@ public class QuestionDaoTest {
         question.setTitle("æøå");
 
         questionDao.save(question);
-        assertTrue(questionDao.retrieve(question.getId()).getTitle().equals("æøå"));
+        assert(questionDao.retrieve(question.getId()).getTitle().equals("æøå"));
     }
 
     @Test
@@ -94,7 +91,7 @@ public class QuestionDaoTest {
 
     @Test
     void shouldListAllQuestions() {
-        assertTrue(!questions.isEmpty());
+        assert(!questions.isEmpty());
         assertThat(questions)
                 .extracting(Question::getId)
                 .containsAll(questions.stream().map(q -> q.getId()).collect(Collectors.toList()));

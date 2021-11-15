@@ -3,8 +3,6 @@ package no.kristiania.database.daos;
 import no.kristiania.TestData;
 import no.kristiania.database.AnswerOption;
 import no.kristiania.database.Question;
-import no.kristiania.database.Survey;
-import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -15,14 +13,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class AnswerOptionDaoTest {
     private static final DataSource dataSource = TestData.testDataSource(AnswerOptionDaoTest.class.getName());
     private static QuestionDao questionDao;
     private static AnswerOptionDao answerOptionDao;
     private static SurveyDao surveyDao;
-    private static int low = 1;
+    private static final int low = 1;
 
     private static Question question;
     private List<AnswerOption> options = new ArrayList<>();
@@ -69,7 +66,7 @@ public class AnswerOptionDaoTest {
         answerOption.setText("æøå");
         answerOption.setQuestionId(question.getId());
 
-        assertTrue(answerOption.getText().equals("æøå"));
+        assert(answerOption.getText().equals("æøå"));
     }
 
     @Test

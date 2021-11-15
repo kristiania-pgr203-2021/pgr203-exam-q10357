@@ -12,8 +12,8 @@ import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class TestData {
-    private static int low = 5;
-    private static int max = 10;
+    private static final int low = 5;
+    private static final int max = 10;
 
     public static DataSource testDataSource(String sourceDb){
         JdbcDataSource dataSource = new JdbcDataSource();
@@ -135,8 +135,8 @@ public class TestData {
     public static UserAnswer exampleUserAnswer(AnswerOptionDao answerOptionDao, SessionUserDao sessionUserDao) throws SQLException {
         UserAnswer answer = new UserAnswer();
         answer.setAnswerOptionId(answerOptionDao.retrieve(generateRandomNumber(low, answerOptionDao.listAll().size())).getId());
-        answer.setSessionUserId(sessionUserDao.retrieve(2).getId());
-        answer.setValue(new Random().nextInt(11));
+        answer.setSessionUserId(sessionUserDao.retrieve(generateRandomNumber(low, sessionUserDao.listAll().size())).getId());
+        answer.setValue(new Random().nextInt(5));
         return answer;
     }
 

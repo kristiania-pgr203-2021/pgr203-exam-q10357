@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -47,6 +46,15 @@ public class UserAnswerDaoTest {
         assertThat(userAnswers)
                 .extracting(UserAnswer::getAnswerOptionId)
                 .containsAll(userAnswers.stream().distinct().map(ua -> ua.getAnswerOptionId()).collect(Collectors.toList()));
+    }
+
+    @Test
+    public void shouldListAllSavedAnswersWithGivenSessionUser() throws SQLException {
+        long randomNumber = TestData.generateRandomNumber(low, sessionUserDao.listAll().size());
+        sessionUser = sessionUserDao.retrieve(randomNumber);
+        List<UserAnswer> userAnswers = userAnswerDao.listAll(sessionUser.getId());
+
+
     }
 
 }
