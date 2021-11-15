@@ -72,9 +72,12 @@ public class TestData {
     public static UserAnswerDao fillUserAnswerTable(DataSource dataSource, AnswerOptionDao answerOptionDao, SessionUserDao sessionUserDao) throws SQLException {
         UserAnswerDao userAnswerDao = new UserAnswerDao(dataSource);
         try {
-            for(AnswerOption ao: answerOptionDao.listAll()){
-                for(int i = 0; i < generateRandomNumber(low, max); i++){
-                    UserAnswer userAnswer = exampleUserAnswer(answerOptionDao, sessionUserDao);
+            for(SessionUser user: sessionUserDao.listAll()){
+                for(AnswerOption ao: answerOptionDao.listAll()){
+                    UserAnswer userAnswer = new UserAnswer();
+                    userAnswer.setSessionUserId(user.getId());
+                    userAnswer.setAnswerOptionId(ao.getId());
+                    userAnswer.setValue(generateRandomNumber(1, 5));
                     userAnswerDao.save(userAnswer);
                 }
             }
@@ -130,14 +133,6 @@ public class TestData {
         question.setLowLabel("1");
         question.setHighLabel("10");
         return question;
-    }
-
-    public static UserAnswer exampleUserAnswer(AnswerOptionDao answerOptionDao, SessionUserDao sessionUserDao) throws SQLException {
-        UserAnswer answer = new UserAnswer();
-        answer.setAnswerOptionId(answerOptionDao.retrieve(generateRandomNumber(low, answerOptionDao.listAll().size())).getId());
-        answer.setSessionUserId(sessionUserDao.retrieve(generateRandomNumber(low, sessionUserDao.listAll().size())).getId());
-        answer.setValue(new Random().nextInt(5));
-        return answer;
     }
 
     public static Survey exampleSurvey(){

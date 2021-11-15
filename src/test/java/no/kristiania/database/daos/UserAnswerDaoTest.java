@@ -24,7 +24,6 @@ public class UserAnswerDaoTest {
     private static final SessionUser user = new SessionUser();
     private static Question question;
     private static SessionUser sessionUser;
-    private static int low;
 
     @BeforeAll
     private static void setupDatabase() throws SQLException {
@@ -50,11 +49,10 @@ public class UserAnswerDaoTest {
 
     @Test
     public void shouldListAllSavedAnswersWithGivenSessionUser() throws SQLException {
-        long randomNumber = TestData.generateRandomNumber(low, sessionUserDao.listAll().size());
+        long randomNumber = TestData.generateRandomNumber(1, sessionUserDao.listAll().size());
         sessionUser = sessionUserDao.retrieve(randomNumber);
         List<UserAnswer> userAnswers = userAnswerDao.listAll(sessionUser.getId());
 
-
+        assertThat(userAnswers).isNotEmpty();
     }
-
 }
