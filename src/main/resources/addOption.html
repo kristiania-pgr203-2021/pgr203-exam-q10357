@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create question | Kristiania Questionnaire</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+</head>
+<body class="has-background-danger-light" style="height: 100vh">
+
+<section class="section">
+    <div class="container">
+
+        <h1 class="title is-1" >Add question member</h1>
+        <form method="GET" action="/api/alternativeAnswers">
+            <h4 class="title is-4" style="margin-bottom: 5px">Add options</h4>
+            <label>Question: <select id="questions" name="question" /></label>
+            <label>Option 1: <input type="text" name="option" /></label>
+            <button class="button is-danger">Add</button>
+        </form>
+        <div>
+            <a href="makeSurveyPage.html">Return</a>
+        </div>
+    </div>
+    <section>
+</body>
+<script>
+    fetch("/api/questionOptions")
+        .then(function(response) {
+            return response.text();
+        }).then(function(text) {
+        document.getElementById("questions").innerHTML = text;
+    });
+</script>
+</html>
