@@ -41,9 +41,12 @@ Ekstra:
 * Har laget controllers
 * Splittet httpMessage
 * Server skal returnere riktig feilmelding, 500 hvis noe har gått galt, 404 - ikke funnet, og prøvd å redirecte siden med 303.
+* Brukt abstract klasser
+
 
 Prøvd:
-* Har prøvd på favicon.ico: 
+* Har prøvd på favicon.ico:
+For å få til dette så måtte vi ha skrevet image-filen tilbake i responsen som en stream. Men dette fikk vi ikke til helt.
 
 * Cookie:
 Vi har en svært simpel login side hvor bruker skriver brukers fornavn. Det hadde vært foretrukket å også ha et passord med en hashfunksjon. Da kunne vi ha retrieved sessionused ved å bruke e-post og passord.
